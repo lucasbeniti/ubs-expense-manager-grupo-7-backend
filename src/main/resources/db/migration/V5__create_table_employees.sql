@@ -12,5 +12,5 @@ CREATE TABLE employees (
     
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-	CONSTRAINT chk_cpf_len CHECK (LENGTH(cpf) = 3)
+	CONSTRAINT chk_cpf_len CHECK (LENGTH(cpf) = 11)
 );

@@ -3,6 +3,7 @@ package com.empresa.projeto.gestao_ubs;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
 public class GestaoUbsApplication {
 
