@@ -9,12 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeDto {
-    private Long employee_id;
+public class DepartmentDto {
+    private Long department_id;
     private String name;
-    private String cpf;
-    private String email;
-    private String role;
-    private Long fk_department_id;
-    private Long fk_manager_id;
+    private Integer monthly_budget;
 }

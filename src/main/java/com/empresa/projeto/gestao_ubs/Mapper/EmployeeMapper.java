@@ -11,20 +11,19 @@ public class EmployeeMapper {
                 employee.getCpf(),
                 employee.getEmail(),
                 employee.getRole(),
-                employee.getDepartment(),
-                employee.getManager()
+                employee.getDepartment() != null ? employee.getDepartment().getDepartment_id() : null,
+                employee.getManager() != null ? employee.getManager().getEmployee_id() : null
         );
     }
 
     public static Employee mapToEmployee(EmployeeDto employeeDto){
-        return new Employee(
-                employeeDto.getEmployee_id(),
-                employeeDto.getName(),
-                employeeDto.getCpf(),
-                employeeDto.getEmail(),
-                employeeDto.getRole(),
-                employeeDto.getDepartment(),
-                employeeDto.getManager()
-        );
+        Employee employee = new Employee();
+        employee.setEmployee_id(employeeDto.getEmployee_id());
+        employee.setName(employeeDto.getName());
+        employee.setCpf(employeeDto.getCpf());
+        employee.setEmail(employeeDto.getEmail());
+        employee.setRole(employeeDto.getRole());
+
+        return employee;
     }
 }
