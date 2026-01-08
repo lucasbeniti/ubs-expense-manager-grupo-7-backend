@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-@Tag(name = "Category Controller", description = "APIs for managing categories")
+@Tag(name = "Categories", description = "APIs endpoints for managing categories")
 @RestController
 @RequestMapping("/api/categories")
 @AllArgsConstructor
