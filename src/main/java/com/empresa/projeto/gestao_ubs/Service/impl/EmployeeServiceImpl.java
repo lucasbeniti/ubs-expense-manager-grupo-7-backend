@@ -25,7 +25,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
         Employee employee = EmployeeMapper.mapToEmployee(employeeDto);
 
-        Long departmentId = employeeDto.getFk_department_id();
+        Long departmentId = employeeDto.getDepartment().getDepartment_id();
         if (departmentId != null) {
             Department department = departmentRepository.findById(departmentId)
                     .orElseThrow(() -> new ResourceNotFoundException("Department with id " + departmentId + " not found"));
@@ -34,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setDepartment(null);
         }
 
-        Long managerId = employeeDto.getFk_manager_id();
+        Long managerId = employeeDto.getManager().getEmployee_id();
         if (managerId != null) {
             Employee manager = employeeRepository.findById(managerId)
                     .orElseThrow(() -> new ResourceNotFoundException("Manager with id " + managerId + " not found"));
@@ -71,7 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setEmail(updatedEmployee.getEmail());
         employee.setRole(updatedEmployee.getRole());
 
-        Long departmentId = updatedEmployee.getFk_department_id();
+        Long departmentId = updatedEmployee.getDepartment().getDepartment_id();
         if (departmentId != null) {
             Department department = departmentRepository.findById(departmentId)
                     .orElseThrow(() -> new ResourceNotFoundException("Department with given id: " + departmentId + " does not exist"));
@@ -80,7 +80,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setDepartment(null);
         }
 
-        Long managerId = updatedEmployee.getFk_manager_id();
+        Long managerId = updatedEmployee.getManager().getEmployee_id();
         if (managerId != null) {
             Employee manager = employeeRepository.findById(managerId)
                     .orElseThrow(() -> new ResourceNotFoundException("Manager with given id: " + managerId + " does not exist"));

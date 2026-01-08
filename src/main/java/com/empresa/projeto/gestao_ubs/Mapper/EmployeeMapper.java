@@ -1,5 +1,6 @@
 package com.empresa.projeto.gestao_ubs.Mapper;
 
+import com.empresa.projeto.gestao_ubs.Dto.DepartmentDto;
 import com.empresa.projeto.gestao_ubs.Dto.EmployeeDto;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
 
@@ -11,8 +12,8 @@ public class EmployeeMapper {
                 employee.getCpf(),
                 employee.getEmail(),
                 employee.getRole(),
-                employee.getDepartment() != null ? employee.getDepartment().getDepartment_id() : null,
-                employee.getManager() != null ? employee.getManager().getEmployee_id() : null
+                employee.getDepartment() != null ? DepartmentMapper.mapToDepartmentDto(employee.getDepartment()) : null,
+                employee.getManager() != null ? simpleManager(employee.getManager()) : null
         );
     }
 
@@ -25,5 +26,16 @@ public class EmployeeMapper {
         employee.setRole(employeeDto.getRole());
 
         return employee;
+    }
+    private static EmployeeDto simpleManager(Employee manager) {
+        return new EmployeeDto(
+                manager.getEmployee_id(),
+                manager.getName(),
+                null,
+                null,
+                manager.getRole(),
+                null,
+                null
+        );
     }
 }

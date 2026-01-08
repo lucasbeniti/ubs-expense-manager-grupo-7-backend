@@ -33,9 +33,9 @@ public class Expenses {
     @Column(name="amount")
     private Double amount;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name="fk_currency_id")
-    //private Currency fk_currency_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="fk_currency_id")
+    private Currency fk_currency_id;
 
     @Column(name="exchange_rate_snapshot")
     private Double exchange_rate_snapshot;
@@ -44,9 +44,9 @@ public class Expenses {
     @JoinColumn(name="fk_employee_id")
     private Employee fk_employee_id;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name="fk_category_id")
-    //private Category fk_category_id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="fk_category_id")
+    private Category fk_category_id;
 
     @Column(name="created_at", nullable = true)
     private LocalDateTime created_at;

@@ -21,9 +21,9 @@ public class ExpensesDto {
     private String receipt_url;
     private String status;
     private Double amount;
-    //private Currency fk_currency_id;
+    private Long fk_currency_id;
     private Double exchange_rate_snapshot;
     private Long fk_employee_id;
-    //private Category fk_category_id
+    private Long fk_category_id;
     private LocalDateTime created_at;
 }
