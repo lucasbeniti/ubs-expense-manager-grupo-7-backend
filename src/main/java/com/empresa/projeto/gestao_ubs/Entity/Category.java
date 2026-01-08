@@ -19,13 +19,13 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long category_id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "daily_limit")
+    @Column(name = "daily_limit", nullable = false)
     private Integer daily_limit;
 
-    @Column(name = "monthly_limit")
+    @Column(name = "monthly_limit", nullable = false)
     private Integer monthly_limit;
 
     @Column(name = "created_at")

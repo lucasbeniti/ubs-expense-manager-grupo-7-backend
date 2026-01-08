@@ -20,20 +20,20 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employee_id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "cpf", nullable = false, updatable = false)
+    @Column(name = "cpf", nullable = false, unique = true)
     private String cpf;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
     private String role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_department_id")
+    @JoinColumn(name = "fk_department_id", nullable = false)
     private Department department;
 
     @ManyToOne(fetch = FetchType.LAZY)

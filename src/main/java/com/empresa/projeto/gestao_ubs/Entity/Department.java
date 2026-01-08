@@ -19,10 +19,10 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long department_id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "monthly_budget")
+    @Column(name = "monthly_budget", nullable = false)
     private Integer monthly_budget;
 
     @Column(name = "created_at")
@@ -32,5 +32,4 @@ public class Department {
     protected void onCreate() {
         this.created_at = LocalDateTime.now();
     }
-
 }
