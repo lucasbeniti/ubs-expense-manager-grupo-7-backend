@@ -1,17 +1,20 @@
 package com.empresa.projeto.gestao_ubs.Service;
 
-import com.empresa.projeto.gestao_ubs.Dto.DepartmentDto;
+import com.empresa.projeto.gestao_ubs.Dto.Department.DepartmentCreateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Department.DepartmentUpdateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Department.DepartmentResponseDto;
 
 import java.util.List;
 
 public interface DepartmentService {
-    DepartmentDto createDepartment(DepartmentDto departmentDto);
 
-    DepartmentDto getDepartmentById(Long departmentId);
+    DepartmentResponseDto createDepartment(DepartmentCreateDto dto);
 
-    List<DepartmentDto> getAllDepartments();
+    DepartmentResponseDto getDepartmentById(Long departmentId);
 
-    DepartmentDto updateDepartment(Long departmentId, DepartmentDto updatedDepartment);
+    List<DepartmentResponseDto> getAllDepartments();
+
+    DepartmentResponseDto updateDepartment(Long departmentId, DepartmentUpdateDto dto);
 
     void deleteDepartment(Long departmentId);
 }

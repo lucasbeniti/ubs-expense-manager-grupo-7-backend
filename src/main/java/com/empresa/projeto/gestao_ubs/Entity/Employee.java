@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,8 +15,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "employees")
 public class Employee {
-
-    // TODO bring created_at
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +39,13 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_manager_id")
     private Employee manager;
+
+    @Column(name = "created_at")
+    private LocalDateTime created_at;
+
+    @PrePersist
+    protected void onCreate() {
+        this.created_at = LocalDateTime.now();
+    }
 
 }

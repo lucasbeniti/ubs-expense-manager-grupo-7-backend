@@ -1,41 +1,58 @@
 package com.empresa.projeto.gestao_ubs.Mapper;
 
-import com.empresa.projeto.gestao_ubs.Dto.DepartmentDto;
-import com.empresa.projeto.gestao_ubs.Dto.EmployeeDto;
+import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeCreateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeUpdateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeResponseDto;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
 
 public class EmployeeMapper {
-    public static EmployeeDto mapToEmployeeDto(Employee employee){
-        return new EmployeeDto(
+
+    public static Employee toEntity(EmployeeCreateDto dto) {
+        Employee employee = new Employee();
+        employee.setName(dto.getName());
+        employee.setCpf(dto.getCpf());
+        employee.setEmail(dto.getEmail());
+        employee.setRole(dto.getRole());
+        return employee;
+    }
+
+    public static void updateEntity(Employee employee, EmployeeUpdateDto dto) {
+        if (dto.getName() != null) {
+            employee.setName(dto.getName());
+        }
+        if (dto.getEmail() != null) {
+            employee.setEmail(dto.getEmail());
+        }
+        if (dto.getRole() != null) {
+            employee.setRole(dto.getRole());
+        }
+    }
+
+    public static EmployeeResponseDto toResponseDto(Employee employee) {
+        return new EmployeeResponseDto(
                 employee.getEmployee_id(),
                 employee.getName(),
                 employee.getCpf(),
                 employee.getEmail(),
                 employee.getRole(),
-                employee.getDepartment() != null ? DepartmentMapper.mapToDepartmentDto(employee.getDepartment()) : null,
-                employee.getManager() != null ? simpleManager(employee.getManager()) : null
-        );
-    }
 
-    public static Employee mapToEmployee(EmployeeDto employeeDto){
-        Employee employee = new Employee();
-        employee.setEmployee_id(employeeDto.getEmployee_id());
-        employee.setName(employeeDto.getName());
-        employee.setCpf(employeeDto.getCpf());
-        employee.setEmail(employeeDto.getEmail());
-        employee.setRole(employeeDto.getRole());
+                employee.getDepartment() != null
+                        ? employee.getDepartment().getDepartment_id()
+                        : null,
 
-        return employee;
-    }
-    private static EmployeeDto simpleManager(Employee manager) {
-        return new EmployeeDto(
-                manager.getEmployee_id(),
-                manager.getName(),
-                null,
-                null,
-                manager.getRole(),
-                null,
-                null
+                employee.getDepartment() != null
+                        ? employee.getDepartment().getName()
+                        : null,
+
+                employee.getManager() != null
+                        ? employee.getManager().getEmployee_id()
+                        : null,
+
+                employee.getManager() != null
+                        ? employee.getManager().getName()
+                        : null,
+
+                employee.getCreated_at()
         );
     }
 }

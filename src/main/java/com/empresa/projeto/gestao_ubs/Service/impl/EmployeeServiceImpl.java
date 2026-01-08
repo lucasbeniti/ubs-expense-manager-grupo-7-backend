@@ -1,7 +1,8 @@
 package com.empresa.projeto.gestao_ubs.Service.impl;
 
-import com.empresa.projeto.gestao_ubs.Dto.EmployeeDto;
-import com.empresa.projeto.gestao_ubs.Entity.Department;
+import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeCreateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeResponseDto;
+import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeUpdateDto;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
 import com.empresa.projeto.gestao_ubs.Exception.ResourceNotFoundException;
 import com.empresa.projeto.gestao_ubs.Mapper.EmployeeMapper;
@@ -12,98 +13,90 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeRepository employeeRepository;
-    private DepartmentRepository departmentRepository;
+    private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
 
     @Override
-    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
-        Employee employee = EmployeeMapper.mapToEmployee(employeeDto);
+    public EmployeeResponseDto createEmployee(EmployeeCreateDto dto) {
+        Employee employee = EmployeeMapper.toEntity(dto);
 
-        Long departmentId = employeeDto.getDepartment().getDepartment_id();
-        if (departmentId != null) {
-            Department department = departmentRepository.findById(departmentId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Department with id " + departmentId + " not found"));
-            employee.setDepartment(department);
-        } else {
-            employee.setDepartment(null);
-        }
+        employee.setDepartment(
+                departmentRepository.findById(dto.getDepartment_id())
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException("Department not found"))
+        );
 
-        Long managerId = employeeDto.getManager().getEmployee_id();
-        if (managerId != null) {
-            Employee manager = employeeRepository.findById(managerId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Manager with id " + managerId + " not found"));
+        if (dto.getManager_id() != null) {
+            Employee manager = employeeRepository.findById(dto.getManager_id())
+                    .orElseThrow(() ->
+                            new ResourceNotFoundException("Manager not found"));
+
             employee.setManager(manager);
-        } else {
-            employee.setManager(null);
         }
 
-        Employee savedEmployee = employeeRepository.save(employee);
-        return EmployeeMapper.mapToEmployeeDto(savedEmployee);
+        Employee saved = employeeRepository.save(employee);
+        return EmployeeMapper.toResponseDto(saved);
     }
 
     @Override
-    public EmployeeDto getEmployeeById(Long employeeId) {
+    public EmployeeResponseDto getEmployeeById(Long employeeId) {
+        return employeeRepository.findById(employeeId)
+                .map(EmployeeMapper::toResponseDto)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee not found"));
+    }
+
+    @Override
+    public List<EmployeeResponseDto> getAllEmployees() {
+        return employeeRepository.findAll()
+                .stream()
+                .map(EmployeeMapper::toResponseDto)
+                .toList();
+    }
+
+    @Override
+    public EmployeeResponseDto updateEmployee(Long employeeId, EmployeeUpdateDto dto) {
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(()->new ResourceNotFoundException("Employee with given id: "+employeeId+ " does not exist"));
-        return EmployeeMapper.mapToEmployeeDto(employee);
-    }
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee not found"));
 
-    @Override
-    public List<EmployeeDto> getAllEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
-        return employees.stream().map(EmployeeMapper::mapToEmployeeDto)
-                .collect(Collectors.toList());
-    }
+        EmployeeMapper.updateEntity(employee, dto);
 
-    @Override
-    public EmployeeDto updateEmployee(Long employeeId, EmployeeDto updatedEmployee) {
-        Employee employee = employeeRepository
-                .findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee with given id: "+employeeId+ " does not exist"));
-
-        employee.setName(updatedEmployee.getName());
-        employee.setCpf(updatedEmployee.getCpf());
-        employee.setEmail(updatedEmployee.getEmail());
-        employee.setRole(updatedEmployee.getRole());
-
-        Long departmentId = updatedEmployee.getDepartment().getDepartment_id();
-        if (departmentId != null) {
-            Department department = departmentRepository.findById(departmentId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Department with given id: " + departmentId + " does not exist"));
-            employee.setDepartment(department);
-        } else {
-            employee.setDepartment(null);
+        if (dto.getDepartment_id() != null) {
+            employee.setDepartment(
+                    departmentRepository.findById(dto.getDepartment_id())
+                            .orElseThrow(() ->
+                                    new ResourceNotFoundException("Department not found"))
+            );
         }
 
-        Long managerId = updatedEmployee.getManager().getEmployee_id();
-        if (managerId != null) {
-            Employee manager = employeeRepository.findById(managerId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Manager with given id: " + managerId + " does not exist"));
-
-            if (manager.getEmployee_id().equals(employeeId)) {
+        if (dto.getManager_id() != null) {
+            if (dto.getManager_id().equals(employeeId)) {
                 throw new IllegalArgumentException("Employee cannot be their own manager");
             }
 
+            Employee manager = employeeRepository.findById(dto.getManager_id())
+                    .orElseThrow(() ->
+                            new ResourceNotFoundException("Manager not found"));
+
             employee.setManager(manager);
-        } else {
-            employee.setManager(null);
         }
 
-        Employee updatedEmployeeObj = employeeRepository.save(employee);
-        return EmployeeMapper.mapToEmployeeDto(updatedEmployeeObj);
+        Employee updated = employeeRepository.save(employee);
+        return EmployeeMapper.toResponseDto(updated);
     }
 
     @Override
     public void deleteEmployee(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(()->new ResourceNotFoundException("Employee with given id: "+employeeId+ " does not exist"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee not found"));
 
-        employeeRepository.deleteById(employeeId);
-
+        employeeRepository.delete(employee);
     }
 }

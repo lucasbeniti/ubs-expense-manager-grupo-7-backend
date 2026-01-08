@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,5 +24,13 @@ public class Department {
 
     @Column(name = "monthly_budget")
     private Integer monthly_budget;
+
+    @Column(name = "created_at")
+    private LocalDateTime created_at;
+
+    @PrePersist
+    protected void onCreate() {
+        this.created_at = LocalDateTime.now();
+    }
 
 }

@@ -1,17 +1,20 @@
 package com.empresa.projeto.gestao_ubs.Service;
 
-import com.empresa.projeto.gestao_ubs.Dto.EmployeeDto;
+import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeCreateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeUpdateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeResponseDto;
 
 import java.util.List;
 
 public interface EmployeeService {
-    EmployeeDto createEmployee(EmployeeDto employeeDto);
 
-    EmployeeDto getEmployeeById(Long employeeId);
+    EmployeeResponseDto createEmployee(EmployeeCreateDto dto);
 
-    List<EmployeeDto> getAllEmployees();
+    EmployeeResponseDto getEmployeeById(Long employeeId);
 
-    EmployeeDto updateEmployee(Long employeeId, EmployeeDto updatedEmployee);
+    List<EmployeeResponseDto> getAllEmployees();
+
+    EmployeeResponseDto updateEmployee(Long employeeId, EmployeeUpdateDto dto);
 
     void deleteEmployee(Long employeeId);
 }
