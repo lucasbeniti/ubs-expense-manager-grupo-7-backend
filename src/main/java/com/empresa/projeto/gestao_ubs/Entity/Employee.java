@@ -14,6 +14,8 @@ import lombok.Setter;
 @Table(name = "employees")
 public class Employee {
 
+    // TODO bring created_at
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employee_id;
