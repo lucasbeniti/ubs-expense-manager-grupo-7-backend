@@ -18,7 +18,7 @@ import java.util.List;
         allowCredentials = "true"
 
 )
-@Tag(name = "Employee Controller", description = "APIs for managing employees")
+@Tag(name = "Employees", description = "APIs endpoints for managing employees")
 @RestController
 @RequestMapping("/api/employees")
 @AllArgsConstructor

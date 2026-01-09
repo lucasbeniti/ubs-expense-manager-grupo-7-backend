@@ -2,6 +2,7 @@ package com.empresa.projeto.gestao_ubs.Dto.Department;
 
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,6 +13,6 @@ public class DepartmentResponseDto {
 
     private Long department_id;
     private String name;
-    private Integer monthly_budget;
+    private BigDecimal monthly_budget;
     private LocalDateTime created_at;
 }

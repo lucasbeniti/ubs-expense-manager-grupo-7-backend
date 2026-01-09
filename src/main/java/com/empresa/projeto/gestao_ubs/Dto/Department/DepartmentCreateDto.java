@@ -2,6 +2,8 @@ package com.empresa.projeto.gestao_ubs.Dto.Department;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -9,5 +11,5 @@ import lombok.*;
 public class DepartmentCreateDto {
 
     private String name;
-    private Integer monthly_budget;
+    private BigDecimal monthly_budget;
 }

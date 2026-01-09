@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -22,8 +23,8 @@ public class Department {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "monthly_budget", nullable = false)
-    private Integer monthly_budget;
+    @Column(name = "monthly_budget", nullable = false, precision = 19, scale = 6)
+    private BigDecimal monthly_budget;
 
     @Column(name = "created_at")
     private LocalDateTime created_at;
