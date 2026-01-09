@@ -53,6 +53,7 @@ public class Expense {
 
     @PrePersist
     protected void onCreate() {
+        this.status = "pending";
         this.created_at = LocalDateTime.now();
     }
 }
