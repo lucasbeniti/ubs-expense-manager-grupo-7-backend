@@ -1,7 +1,8 @@
 package com.empresa.projeto.gestao_ubs.Service.impl;
 
-import com.empresa.projeto.gestao_ubs.Dto.Report.EmployeeExpenseDto;
-import com.empresa.projeto.gestao_ubs.Dto.Report.EmployeeExpenseReportDto;
+import com.empresa.projeto.gestao_ubs.Dto.Report.DepartmentExpense.DepartmentExpenseDto;
+import com.empresa.projeto.gestao_ubs.Dto.Report.EmployeeExpense.EmployeeExpenseDto;
+import com.empresa.projeto.gestao_ubs.Dto.Report.EmployeeExpense.EmployeeExpenseReportDto;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
 import com.empresa.projeto.gestao_ubs.Repository.ExpenseRepository;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseReportService;
@@ -25,11 +26,11 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
     public List<EmployeeExpenseReportDto> getEmployeeExpenseReport(
             LocalDate start,
             LocalDate end,
-            Long employeeId,
-            Long categoryId
+            Long employee_id,
+            Long category_id
     ) {
         List<Expense> expenses =
-                expenseRepository.findExpensesForEmployeeReport(start, end, employeeId, categoryId);
+                expenseRepository.findExpensesForEmployeeReport(start, end, employee_id, category_id);
 
         Map<Long, List<Expense>> expensesByEmployee =
                 expenses.stream().collect(Collectors.groupingBy(
@@ -69,4 +70,5 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
 
         return report;
     }
+
 }

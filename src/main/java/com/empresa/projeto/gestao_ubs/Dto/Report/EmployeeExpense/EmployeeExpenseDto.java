@@ -1,9 +1,9 @@
-package com.empresa.projeto.gestao_ubs.Dto.Report;
+package com.empresa.projeto.gestao_ubs.Dto.Report.EmployeeExpense;
 
 import java.time.LocalDate;
 
 public record EmployeeExpenseDto(
-        Long expenseId,
+        Long expense_id,
         LocalDate date,
         String description,
         String categoryName,
