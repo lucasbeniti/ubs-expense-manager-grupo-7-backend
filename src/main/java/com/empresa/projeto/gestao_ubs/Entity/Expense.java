@@ -48,7 +48,7 @@ public class Expense {
     @JoinColumn(name="fk_category_id")
     private Category category;
 
-    @Column(name="created_at", nullable = true)
+    @Column(name="created_at")
     private LocalDateTime created_at;
 
     @PrePersist
