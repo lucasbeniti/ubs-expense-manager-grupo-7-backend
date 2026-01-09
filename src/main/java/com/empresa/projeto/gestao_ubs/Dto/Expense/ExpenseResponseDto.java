@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -12,7 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExpensesCreateDto {
+public class ExpenseResponseDto {
+
     private Long expense_id;
     private String description;
     private LocalDate date;
@@ -21,7 +23,19 @@ public class ExpensesCreateDto {
     private Double amount;
 
     private Long currency_id;
-    private Long employee_id;
-    private Long category_id;
+    private String currency_code;
+    private String currency_name;
 
+    private Double exchange_rate_snapshot;
+
+    private Long employee_id;
+    private String employee_name;
+    private String employee_role;
+
+    private Long category_id;
+    private String category_name;
+    private BigDecimal daily_limit;
+    private BigDecimal monthly_limit;
+
+    private LocalDateTime created_at;
 }

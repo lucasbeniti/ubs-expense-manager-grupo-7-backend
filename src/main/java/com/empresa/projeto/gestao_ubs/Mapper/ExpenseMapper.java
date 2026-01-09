@@ -1,18 +1,18 @@
 package com.empresa.projeto.gestao_ubs.Mapper;
 
-import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesCreateDto;
-import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesResponseDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseCreateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseResponseDto;
 import com.empresa.projeto.gestao_ubs.Entity.Category;
 import com.empresa.projeto.gestao_ubs.Entity.Currency;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
-import com.empresa.projeto.gestao_ubs.Entity.Expenses;
+import com.empresa.projeto.gestao_ubs.Entity.Expense;
 
 // TODO remove currency and category comments
 
-public class ExpensesMapper {
+public class ExpenseMapper {
 
-    public static Expenses toEntity(ExpensesCreateDto dto) {
-        Expenses expense = new Expenses();
+    public static Expense toEntity(ExpenseCreateDto dto) {
+        Expense expense = new Expense();
         expense.setDescription(dto.getDescription());
         expense.setDate(dto.getDate());
         expense.setReceipt_url(dto.getReceipt_url());
@@ -22,12 +22,12 @@ public class ExpensesMapper {
         return expense;
     }
 
-    public static ExpensesResponseDto toResponseDto(Expenses expense) {
+    public static ExpenseResponseDto toResponseDto(Expense expense) {
         Currency currency = expense.getCurrency();
         Employee employee = expense.getEmployee();
         Category category = expense.getCategory();
 
-        return new ExpensesResponseDto(
+        return new ExpenseResponseDto(
                 expense.getExpense_id(),
                 expense.getDescription(),
                 expense.getDate(),

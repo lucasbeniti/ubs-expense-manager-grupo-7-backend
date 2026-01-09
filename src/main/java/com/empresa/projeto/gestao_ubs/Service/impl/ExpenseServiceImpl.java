@@ -1,15 +1,15 @@
 package com.empresa.projeto.gestao_ubs.Service.impl;
 
-import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesCreateDto;
-import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesResponseDto;
-import com.empresa.projeto.gestao_ubs.Entity.Expenses;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseCreateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseResponseDto;
+import com.empresa.projeto.gestao_ubs.Entity.Expense;
 import com.empresa.projeto.gestao_ubs.Exception.ResourceNotFoundException;
-import com.empresa.projeto.gestao_ubs.Mapper.ExpensesMapper;
+import com.empresa.projeto.gestao_ubs.Mapper.ExpenseMapper;
 import com.empresa.projeto.gestao_ubs.Repository.CurrencyRepository;
 import com.empresa.projeto.gestao_ubs.Repository.EmployeeRepository;
-import com.empresa.projeto.gestao_ubs.Repository.ExpensesRepository;
+import com.empresa.projeto.gestao_ubs.Repository.ExpenseRepository;
 import com.empresa.projeto.gestao_ubs.Repository.CategoryRepository;
-import com.empresa.projeto.gestao_ubs.Service.ExpensesService;
+import com.empresa.projeto.gestao_ubs.Service.ExpenseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +18,17 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class ExpensesServiceImpl implements ExpensesService {
+public class ExpenseServiceImpl implements ExpenseService {
 
-    private final ExpensesRepository expensesRepository;
+    private final ExpenseRepository expensesRepository;
     private final CurrencyRepository currencyRepository;
     private final EmployeeRepository employeeRepository;
     private final CategoryRepository categoryRepository;
 
     @Override
-    public ExpensesResponseDto createExpenses(ExpensesCreateDto dto) {
+    public ExpenseResponseDto createExpenses(ExpenseCreateDto dto) {
 
-        Expenses expense = ExpensesMapper.toEntity(dto);
+        Expense expense = ExpenseMapper.toEntity(dto);
         // Set FK relations
         expense.setCurrency(
                 currencyRepository.findById(dto.getCurrency_id())
@@ -45,16 +45,16 @@ public class ExpensesServiceImpl implements ExpensesService {
             );
         }
         expense.setExchange_rate_snapshot(1.0);
-        Expenses saved = expensesRepository.save(expense);
+        Expense saved = expensesRepository.save(expense);
 
-        return ExpensesMapper.toResponseDto(saved);
+        return ExpenseMapper.toResponseDto(saved);
     }
 
     @Override
-    public List<ExpensesResponseDto> getAllExpenses() {
-        List<Expenses> expenses = expensesRepository.findAll();
+    public List<ExpenseResponseDto> getAllExpenses() {
+        List<Expense> expenses = expensesRepository.findAll();
         return expenses.stream()
-                .map(ExpensesMapper::toResponseDto)
+                .map(ExpenseMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
 }

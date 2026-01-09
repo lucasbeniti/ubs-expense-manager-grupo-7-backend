@@ -1,11 +1,9 @@
 package com.empresa.projeto.gestao_ubs.Controller;
 
 
-import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesCreateDto;
-import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesResponseDto;
-import com.empresa.projeto.gestao_ubs.Entity.Expenses;
-import com.empresa.projeto.gestao_ubs.Repository.ExpensesRepository;
-import com.empresa.projeto.gestao_ubs.Service.ExpensesService;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseCreateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseResponseDto;
+import com.empresa.projeto.gestao_ubs.Service.ExpenseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -17,24 +15,22 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@Tag(name = "Expenses Controller", description = "APIs for managing expenses")
+@Tag(name = "Expenses", description = "APIs endpoints for managing expenses")
 @RequestMapping("/api/expenses")
-public class ExpensesController {
+public class ExpenseController {
 
-    private ExpensesService expensesService;
+    private ExpenseService expensesService;
 
-    // Add Expense
     @PostMapping
     @Operation(summary = "Add a new expense", description = "Create and return the created expense")
-    public ResponseEntity<ExpensesResponseDto> createExpenses(@RequestBody ExpensesCreateDto dto){
+    public ResponseEntity<ExpenseResponseDto> createExpenses(@RequestBody ExpenseCreateDto dto){
         return new ResponseEntity<>(expensesService.createExpenses(dto), HttpStatus.CREATED);
     }
 
-    // Get all Expenses
     @GetMapping
     @Operation(summary = "Get all expenses", description = "List all expenses")
-    public ResponseEntity<List<ExpensesResponseDto>> getAllExpenses(){
-        List<ExpensesResponseDto> expenses = expensesService.getAllExpenses();
+    public ResponseEntity<List<ExpenseResponseDto>> getAllExpenses(){
+        List<ExpenseResponseDto> expenses = expensesService.getAllExpenses();
         return ResponseEntity.ok(expenses);
     }
 }
