@@ -1,7 +1,5 @@
-package com.empresa.projeto.gestao_ubs.Dto;
+package com.empresa.projeto.gestao_ubs.Dto.Expense;
 
-import com.empresa.projeto.gestao_ubs.Entity.Employee;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,16 +12,16 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExpensesDto {
+public class ExpensesCreateDto {
     private Long expense_id;
     private String description;
     private LocalDate date;
     private String receipt_url;
     private String status;
     private Double amount;
-    private Long fk_currency_id;
-    private Double exchange_rate_snapshot;
-    private Long fk_employee_id;
-    private Long fk_category_id;
-    private LocalDateTime created_at;
+
+    private Long currency_id;
+    private Long employee_id;
+    private Long category_id;
+
 }

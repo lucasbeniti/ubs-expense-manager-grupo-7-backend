@@ -1,11 +1,12 @@
 package com.empresa.projeto.gestao_ubs.Service;
 
-import com.empresa.projeto.gestao_ubs.Dto.ExpensesDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesCreateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesResponseDto;
 
 import java.util.List;
 
 public interface ExpensesService {
-    ExpensesDto createExpenses(ExpensesDto expensesDto);
+    ExpensesResponseDto createExpenses(ExpensesCreateDto dto);
 
-    List<ExpensesDto> getAllExpenses();
+    List<ExpensesResponseDto> getAllExpenses(); // <--- ajustar aqui
 }

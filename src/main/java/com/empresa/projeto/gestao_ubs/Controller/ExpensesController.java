@@ -1,7 +1,10 @@
 package com.empresa.projeto.gestao_ubs.Controller;
 
 
-import com.empresa.projeto.gestao_ubs.Dto.ExpensesDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesCreateDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpensesResponseDto;
+import com.empresa.projeto.gestao_ubs.Entity.Expenses;
+import com.empresa.projeto.gestao_ubs.Repository.ExpensesRepository;
 import com.empresa.projeto.gestao_ubs.Service.ExpensesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,16 +26,15 @@ public class ExpensesController {
     // Add Expense
     @PostMapping
     @Operation(summary = "Add a new expense", description = "Create and return the created expense")
-    public ResponseEntity<ExpensesDto> createExpenses(@RequestBody ExpensesDto expensesDto){
-        ExpensesDto savedExpense = expensesService.createExpenses(expensesDto);
-        return new ResponseEntity<>(savedExpense, HttpStatus.CREATED);
+    public ResponseEntity<ExpensesResponseDto> createExpenses(@RequestBody ExpensesCreateDto dto){
+        return new ResponseEntity<>(expensesService.createExpenses(dto), HttpStatus.CREATED);
     }
 
     // Get all Expenses
     @GetMapping
     @Operation(summary = "Get all expenses", description = "List all expenses")
-    public ResponseEntity<List<ExpensesDto>> getAllExpenses(){
-        List<ExpensesDto> expenses = expensesService.getAllExpenses();
+    public ResponseEntity<List<ExpensesResponseDto>> getAllExpenses(){
+        List<ExpensesResponseDto> expenses = expensesService.getAllExpenses();
         return ResponseEntity.ok(expenses);
     }
 }
