@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public record DepartmentExpenseDto (
     Long department_id,
-    String departmentName,
-    BigDecimal monthlyBudget,
-    Double maxAmount
+    String department_name,
+    BigDecimal monthly_budget,
+    Double total
 ){}

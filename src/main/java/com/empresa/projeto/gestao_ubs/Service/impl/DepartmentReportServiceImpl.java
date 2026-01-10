@@ -6,7 +6,6 @@ import com.empresa.projeto.gestao_ubs.Service.DepartmentReportService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -16,7 +15,7 @@ public class DepartmentReportServiceImpl implements DepartmentReportService {
     private final ExpenseRepository expenseRepository;
 
     @Override
-    public List<DepartmentExpenseDto> getMaxExpenseByDepartment(
+    public List<DepartmentExpenseDto> getDepartmentBudgetComparative(
             Long department_id
     ) {
         return expenseRepository.findExpenseByDepartment(department_id);

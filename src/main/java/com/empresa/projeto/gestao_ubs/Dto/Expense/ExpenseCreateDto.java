@@ -18,7 +18,6 @@ public class ExpenseCreateDto {
     private String receipt_url;
     private String status;
     private Double amount;
-
     private Long currency_id;
     private Long employee_id;
     private Long category_id;

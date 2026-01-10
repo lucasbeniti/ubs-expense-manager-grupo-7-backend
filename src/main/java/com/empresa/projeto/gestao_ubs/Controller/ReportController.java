@@ -21,9 +21,9 @@ import java.util.List;
         allowCredentials = "true"
 
 )
-@Tag(name = "Reports", description = "APIs endpoints for reports")
+@Tag(name = "Reports", description = "APIs endpoints for managing reports")
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/api/reports") 
 @AllArgsConstructor
 public class ReportController {
 
@@ -47,12 +47,12 @@ public class ReportController {
 
     private final CategoryReportService CategoryReportService;
 
-    @GetMapping("/max-expense-by-category")
+    @GetMapping("/category-expenses")
     @Operation(
-            summary = "Max expense by category",
-            description = "Returns the highest expense value grouped by category"
+            summary = "Category expenses report",
+            description = "Returns an expense report grouped by category"
     )
-    public ResponseEntity<List<CategoryExpenseDto>> getMaxExpenseByCategory(
+    public ResponseEntity<List<CategoryExpenseDto>> getCategoryExpenseReport(
             @RequestParam(required = false) Long category_id
     ) {
         return ResponseEntity.ok(CategoryReportService.ExpenseByCategory(
@@ -63,16 +63,16 @@ public class ReportController {
 
     private final DepartmentReportService DepartmentReportService;
 
-    @GetMapping("/max-expense-by-department")
+    @GetMapping("/department-budget-comparative")
     @Operation(
-            summary = "Max expense by department",
-            description = "Returns the highest expense value grouped by department"
+            summary = "Department budget comparative",
+            description = "Returns a comparison between the total spent and the monthly limit"
     )
-    public ResponseEntity<List<DepartmentExpenseDto>> getMaxExpenseByDepartment(
+    public ResponseEntity<List<DepartmentExpenseDto>> getDepartmentBudgetComparative(
             @RequestParam(required = false) Long department_id
     ) {
         return ResponseEntity.ok(
-                DepartmentReportService.getMaxExpenseByDepartment(
+                DepartmentReportService.getDepartmentBudgetComparative(
                         department_id
                 )
         );

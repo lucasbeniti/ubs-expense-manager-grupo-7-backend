@@ -6,8 +6,8 @@ public record EmployeeExpenseDto(
         Long expense_id,
         LocalDate date,
         String description,
-        String categoryName,
+        String category_name,
         Double amount,
-        String currencyCode,
+        String currency_code,
         String status
 ) {}

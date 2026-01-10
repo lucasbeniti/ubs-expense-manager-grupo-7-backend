@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DepartmentReportService {
 
-    List<DepartmentExpenseDto> getMaxExpenseByDepartment(
+    List<DepartmentExpenseDto> getDepartmentBudgetComparative(
             Long department_id
     );
 }
