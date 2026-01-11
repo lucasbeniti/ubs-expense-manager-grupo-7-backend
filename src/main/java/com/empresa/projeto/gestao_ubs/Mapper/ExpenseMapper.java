@@ -6,6 +6,7 @@ import com.empresa.projeto.gestao_ubs.Entity.Category;
 import com.empresa.projeto.gestao_ubs.Entity.Currency;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
+import com.empresa.projeto.gestao_ubs.Enums.ExpenseStatus;
 
 public class ExpenseMapper {
 
@@ -14,7 +15,7 @@ public class ExpenseMapper {
         expense.setDescription(dto.getDescription());
         expense.setDate(dto.getDate());
         expense.setReceiptUrl(dto.getReceipt_url());
-        expense.setStatus(dto.getStatus());
+        expense.setStatus(ExpenseStatus.valueOf(dto.getStatus()));
         expense.setAmount(dto.getAmount());
 
         return expense;
@@ -30,7 +31,7 @@ public class ExpenseMapper {
                 expense.getDescription(),
                 expense.getDate(),
                 expense.getReceiptUrl(),
-                expense.getStatus(),
+                expense.getStatus().name(),
                 expense.getAmount(),
 
                 currency != null ? currency.getCurrencyId() : null,
@@ -41,7 +42,7 @@ public class ExpenseMapper {
 
                 employee != null ? employee.getEmployeeId() : null,
                 employee != null ? employee.getName() : null,
-                employee != null ? employee.getRole() : null,
+                employee != null ? employee.getRole().name() : null,
 
                 category != null ? category.getCategoryId() : null,
                 category != null ? category.getName() : null,

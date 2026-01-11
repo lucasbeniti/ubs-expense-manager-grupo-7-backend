@@ -4,6 +4,7 @@ import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeUpdateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeResponseDto;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
+import com.empresa.projeto.gestao_ubs.Enums.EmployeeRole;
 
 public class EmployeeMapper {
 
@@ -12,7 +13,7 @@ public class EmployeeMapper {
         employee.setName(dto.getName());
         employee.setCpf(dto.getCpf());
         employee.setEmail(dto.getEmail());
-        employee.setRole(dto.getRole());
+        employee.setRole(EmployeeRole.valueOf(dto.getRole().toUpperCase()));
         return employee;
     }
 
@@ -24,7 +25,7 @@ public class EmployeeMapper {
             employee.setEmail(dto.getEmail());
         }
         if (dto.getRole() != null) {
-            employee.setRole(dto.getRole());
+            employee.setRole(EmployeeRole.valueOf(dto.getRole().toUpperCase()));
         }
     }
 
@@ -34,7 +35,7 @@ public class EmployeeMapper {
                 employee.getName(),
                 employee.getCpf(),
                 employee.getEmail(),
-                employee.getRole(),
+                employee.getRole().name(),
 
                 employee.getDepartment() != null
                         ? employee.getDepartment().getDepartmentId()

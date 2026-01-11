@@ -1,9 +1,9 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
+import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
+import com.empresa.projeto.gestao_ubs.Enums.AlertType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.*;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -30,11 +30,13 @@ public class Alert {
     @Column(name = "severity", length = 20, nullable = false)
     private String severity;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20, nullable = false)
-    private String status;
+    private AlertStatus status;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", length = 20)
-    private String type;
+    private AlertType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_expense_id")
@@ -49,11 +51,11 @@ public class Alert {
         this.alertUuid = UUID.randomUUID();
 
         if (this.status == null) {
-            this.status = "new";
+            this.status = AlertStatus.NEW;
         }
+
         if (this.severity == null) {
-            this.severity = "warning";
+            this.severity = "WARNING";
         }
     }
 }
-

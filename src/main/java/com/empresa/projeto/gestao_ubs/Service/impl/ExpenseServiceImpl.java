@@ -2,6 +2,7 @@ package com.empresa.projeto.gestao_ubs.Service.impl;
 
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseResponseDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseUpdateStatusDto;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
 import com.empresa.projeto.gestao_ubs.Exception.ResourceNotFoundException;
 import com.empresa.projeto.gestao_ubs.Mapper.ExpenseMapper;
@@ -57,5 +58,17 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenses.stream()
                 .map(ExpenseMapper::toResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ExpenseResponseDto updateExpenseStatus(Long id, ExpenseUpdateStatusDto dto) {
+        Expense expense = expensesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Expense not found"));
+
+        expense.setStatus(dto.getStatus());
+
+        expensesRepository.save(expense);
+
+        return ExpenseMapper.toResponseDto(expense);
     }
 }

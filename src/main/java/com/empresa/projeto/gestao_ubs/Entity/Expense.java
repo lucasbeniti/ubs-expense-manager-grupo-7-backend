@@ -1,7 +1,7 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
+import com.empresa.projeto.gestao_ubs.Enums.ExpenseStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
@@ -37,9 +37,10 @@ public class Expense {
     @Column(name = "receipt_url", length = 500)
     private String receiptUrl;
 
-    @NotBlank
+    @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private String status;
+    private ExpenseStatus status;
 
     @NotNull
     @Positive
@@ -70,7 +71,7 @@ public class Expense {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.expenseUuid = UUID.randomUUID();
-        this.status = "pending";
+        this.status = ExpenseStatus.PENDING;
     }
 }
 

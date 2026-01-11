@@ -3,6 +3,7 @@ package com.empresa.projeto.gestao_ubs.Controller;
 
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseResponseDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseUpdateStatusDto;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,5 +34,12 @@ public class ExpenseController {
     public ResponseEntity<List<ExpenseResponseDto>> getAllExpenses(){
         List<ExpenseResponseDto> expenses = expensesService.getAllExpenses();
         return ResponseEntity.ok(expenses);
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Update expense status", description = "Update the status of an expense")
+    public ResponseEntity<ExpenseResponseDto> updateStatus(@PathVariable Long id, @RequestBody ExpenseUpdateStatusDto dto) {
+        ExpenseResponseDto updatedExpense = expensesService.updateExpenseStatus(id, dto);
+        return ResponseEntity.ok(updatedExpense);
     }
 }

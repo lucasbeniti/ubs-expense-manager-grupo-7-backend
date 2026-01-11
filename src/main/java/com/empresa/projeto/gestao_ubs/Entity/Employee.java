@@ -1,5 +1,6 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
+import com.empresa.projeto.gestao_ubs.Enums.EmployeeRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -40,9 +41,9 @@ public class Employee {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    @NotBlank
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private String role;
+    private EmployeeRole role;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fk_department_id", nullable = false)

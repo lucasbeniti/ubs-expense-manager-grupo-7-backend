@@ -56,7 +56,7 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
                                     e.getCategory() != null ? e.getCategory().getName() : null,
                                     e.getAmount(),
                                     e.getCurrency().getCode(),
-                                    e.getStatus()
+                                    e.getStatus().name()
                             ))
                             .toList();
 

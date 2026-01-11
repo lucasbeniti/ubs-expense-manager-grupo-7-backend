@@ -2,7 +2,6 @@ package com.empresa.projeto.gestao_ubs.Controller;
 
 import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertResponseDto;
-import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertUpdateDto;
 import com.empresa.projeto.gestao_ubs.Service.AlertService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @Tag(name = "Alerts", description = "APIs endpoints for managing alerts")
 @AllArgsConstructor
 @RestController
@@ -33,9 +33,9 @@ public class AlertController {
         return ResponseEntity.ok(alertService.getAllAlerts());
     }
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     @Operation(summary = "Update the status of an alert", description = "Returns the updated alert")
-    public ResponseEntity<AlertResponseDto> update(@RequestBody AlertUpdateDto dto) {
-        return ResponseEntity.ok(alertService.updateAlert(dto));
+    public ResponseEntity<AlertResponseDto> update(@PathVariable Long id) {
+        return ResponseEntity.ok(alertService.updateAlert(id));
     }
 }
