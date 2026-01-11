@@ -1,11 +1,12 @@
 package com.empresa.projeto.gestao_ubs.Controller;
 
 import com.empresa.projeto.gestao_ubs.Dto.User.AuthenticationDto;
+import com.empresa.projeto.gestao_ubs.Dto.User.LoginResponseDto;
 import com.empresa.projeto.gestao_ubs.Dto.User.RegisterDto;
 import com.empresa.projeto.gestao_ubs.Entity.User.User;
+import com.empresa.projeto.gestao_ubs.Infra.Security.TokenService;
 import com.empresa.projeto.gestao_ubs.Repository.UserRepository;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,18 +18,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class AuthenticationController {
+
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
     private UserRepository repository;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDto data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+        return ResponseEntity.ok(new LoginResponseDto(token));
     }
 
     @PostMapping("/register")

@@ -1,5 +1,8 @@
 package com.empresa.projeto.gestao_ubs.Entity.User;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum UserRole {
     ADMIN("admin"),
     EMPLOYEE("employee"),
@@ -15,4 +18,6 @@ public enum UserRole {
     public String getRole(){
         return role;
     }
+
+
 }

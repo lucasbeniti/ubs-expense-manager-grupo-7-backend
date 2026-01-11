@@ -15,17 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Table(name = "users")
-@Entity(name = "users")
-
+@Entity(name="users")
 public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     private String login;
-
     private String password;
-
     private UserRole role;
 
     public User(String login, String password, UserRole role){
@@ -33,19 +29,21 @@ public class User implements UserDetails{
         this.password = password;
         this.role = role;
     }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List RoleList = switch (this.role) {
-            case UserRole.ADMIN -> List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
+        return switch (this.role) {
+            case ADMIN -> List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_EMPLOYEE"),
                     new SimpleGrantedAuthority("ROLE_MANAGER"),
-                    new SimpleGrantedAuthority("ROLE_FINANCE"));
-            case UserRole.MANAGER -> List.of(new SimpleGrantedAuthority("ROLE_MANAGER"));
-            case UserRole.FINANCE -> List.of(new SimpleGrantedAuthority("ROLE_FINANCE"));
+                    new SimpleGrantedAuthority("ROLE_FINANCE")
+            );
+            case MANAGER -> List.of(new SimpleGrantedAuthority("ROLE_MANAGER"));
+            case FINANCE -> List.of(new SimpleGrantedAuthority("ROLE_FINANCE"));
             default -> List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
         };
-
-        return RoleList;
     }
 
     @Override
