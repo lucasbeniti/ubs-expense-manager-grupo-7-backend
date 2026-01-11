@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExpenseResponseDto {
+public class ExpensesResponseDto {
 
     private Long expense_id;
     private String description;

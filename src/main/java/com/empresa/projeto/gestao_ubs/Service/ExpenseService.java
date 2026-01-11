@@ -8,5 +8,5 @@ import java.util.List;
 public interface ExpenseService {
     ExpenseResponseDto createExpenses(ExpenseCreateDto dto);
 
-    List<ExpenseResponseDto> getAllExpenses(); // <--- ajustar aqui
+    List<ExpenseResponseDto> getAllExpenses();
 }
