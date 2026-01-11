@@ -1,38 +1,50 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+@Entity
+@Table(name = "employees")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "employees")
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employee_id;
+    @Column(name = "employee_id")
+    private Long employeeId;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "employee_uuid", nullable = false, unique = true, updatable = false)
+    private UUID employeeUuid;
+
+    @NotBlank
+    @Column(nullable = false, length = 150)
     private String name;
 
-    @Column(name = "cpf", nullable = false, unique = true)
+    @NotBlank
+    @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Email
+    @NotBlank
+    @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    @Column(name = "role", nullable = false)
+    @NotBlank
+    @Column(nullable = false, length = 30)
     private String role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fk_department_id", nullable = false)
     private Department department;
 
@@ -40,12 +52,13 @@ public class Employee {
     @JoinColumn(name = "fk_manager_id")
     private Employee manager;
 
-    @Column(name = "created_at")
-    private LocalDateTime created_at;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.created_at = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+        this.employeeUuid = UUID.randomUUID();
     }
-
 }
+

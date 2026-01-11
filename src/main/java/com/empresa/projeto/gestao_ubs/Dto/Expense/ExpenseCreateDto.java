@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -17,7 +18,7 @@ public class ExpenseCreateDto {
     private LocalDate date;
     private String receipt_url;
     private String status;
-    private Double amount;
+    private BigDecimal amount;
     private Long currency_id;
     private Long employee_id;
     private Long category_id;

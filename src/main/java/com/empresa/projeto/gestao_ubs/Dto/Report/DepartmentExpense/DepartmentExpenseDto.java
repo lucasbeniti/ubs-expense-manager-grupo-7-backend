@@ -6,5 +6,5 @@ public record DepartmentExpenseDto (
     Long department_id,
     String department_name,
     BigDecimal monthly_budget,
-    Double total
+    BigDecimal total
 ){}

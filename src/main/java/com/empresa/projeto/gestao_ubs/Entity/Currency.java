@@ -1,35 +1,48 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+@Entity
+@Table(name = "currencies")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "currencies")
 public class Currency {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long currency_id;
+    @Column(name = "currency_id")
+    private Long currencyId;
 
-    @Column(name = "code", length = 3, nullable = false, unique = true)
+    @Column(name = "currency_uuid", nullable = false, unique = true, updatable = false)
+    private UUID currencyUuid;
+
+    @NotBlank
+    @Size(min = 3, max = 3)
+    @Column(nullable = false, unique = true, length = 3)
     private String code;
 
-    @Column(name ="name", nullable = false)
+    @NotBlank
+    @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(name ="active", nullable = false)
-    private Boolean active;
+    @Column(name = "active", nullable = false)
+    private Boolean active = true;
 
-    @Column(name = "created_at")
-    private LocalDateTime created_at;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.created_at = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+        this.currencyUuid = UUID.randomUUID();
     }
 }
+

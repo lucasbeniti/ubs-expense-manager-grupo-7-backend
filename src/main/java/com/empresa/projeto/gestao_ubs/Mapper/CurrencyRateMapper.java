@@ -13,7 +13,7 @@ public class CurrencyRateMapper {
         CurrencyRate rate = new CurrencyRate();
         rate.setCurrency(currency);
         rate.setRate(dto.getRate());
-        rate.setValid_date(dto.getValid_date());
+        rate.setValidDate(dto.getValid_date());
         return rate;
     }
 
@@ -24,16 +24,16 @@ public class CurrencyRateMapper {
     ) {
         rate.setCurrency(currency);
         rate.setRate(dto.getRate());
-        rate.setValid_date(dto.getValid_date());
+        rate.setValidDate(dto.getValid_date());
     }
 
     public static CurrencyRateResponseDto toResponseDto(CurrencyRate rate) {
         CurrencyRateResponseDto dto = new CurrencyRateResponseDto();
-        dto.setCurrency_rate_id(rate.getCurrency_rate_id());
-        dto.setCurrency_id(rate.getCurrency().getCurrency_id());
+        dto.setCurrency_rate_id(rate.getCurrencyRateId());
+        dto.setCurrency_id(rate.getCurrency().getCurrencyId());
         dto.setCurrency_code(rate.getCurrency().getCode());
         dto.setRate(rate.getRate());
-        dto.setValid_date(rate.getValid_date());
+        dto.setValid_date(rate.getValidDate());
         return dto;
     }
 }

@@ -10,7 +10,7 @@ public class DepartmentMapper {
     public static Department toEntity(DepartmentCreateDto dto) {
         Department department = new Department();
         department.setName(dto.getName());
-        department.setMonthly_budget(dto.getMonthly_budget());
+        department.setMonthlyBudget(dto.getMonthly_budget());
         return department;
     }
 
@@ -19,16 +19,16 @@ public class DepartmentMapper {
             department.setName(dto.getName());
         }
         if (dto.getMonthly_budget() != null) {
-            department.setMonthly_budget(dto.getMonthly_budget());
+            department.setMonthlyBudget(dto.getMonthly_budget());
         }
     }
 
     public static DepartmentResponseDto toResponseDto(Department department) {
         return new DepartmentResponseDto(
-                department.getDepartment_id(),
+                department.getDepartmentId(),
                 department.getName(),
-                department.getMonthly_budget(),
-                department.getCreated_at()
+                department.getMonthlyBudget(),
+                department.getCreatedAt()
         );
     }
 }

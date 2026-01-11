@@ -13,6 +13,7 @@ import com.empresa.projeto.gestao_ubs.Service.ExpenseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                             .orElseThrow(() -> new ResourceNotFoundException("Category not found"))
             );
         }
-        expense.setExchange_rate_snapshot(1.0);
+        expense.setExchangeRateSnapshot(BigDecimal.ONE);
         Expense saved = expensesRepository.save(expense);
 
         return ExpenseMapper.toResponseDto(saved);
