@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExpenseLogCreateDto {
-    private Long action;
+    private String action;
     private String comments;
     private Long expense_id;
     private Long employee_id;

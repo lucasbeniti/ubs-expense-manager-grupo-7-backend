@@ -5,12 +5,13 @@ import com.empresa.projeto.gestao_ubs.Dto.ExpenseLog.ExpenseLogResponseDto;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
 import com.empresa.projeto.gestao_ubs.Entity.ExpenseLog;
+import com.empresa.projeto.gestao_ubs.Enums.ExpenseLogAction;
 
 public class ExpenseLogMapper {
 
     public static ExpenseLog toEntity(ExpenseLogCreateDto dto) {
         ExpenseLog expenseLog = new ExpenseLog();
-        expenseLog.setAction(dto.getAction());
+        expenseLog.setAction(ExpenseLogAction.valueOf(dto.getAction()));
         expenseLog.setComments(dto.getComments());
 
         return expenseLog;
@@ -22,7 +23,7 @@ public class ExpenseLogMapper {
 
         return new ExpenseLogResponseDto(
                 expenseLog.getExpenseLogId(),
-                expenseLog.getAction(),
+                expenseLog.getAction().name(),
                 expenseLog.getComments(),
 
                 expense != null ? expense.getExpenseId() : null,

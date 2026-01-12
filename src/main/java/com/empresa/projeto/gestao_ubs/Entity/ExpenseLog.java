@@ -1,11 +1,15 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
+import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
+import com.empresa.projeto.gestao_ubs.Enums.AlertType;
+import com.empresa.projeto.gestao_ubs.Enums.ExpenseLogAction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "expense_logs")
@@ -18,8 +22,9 @@ public class ExpenseLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expenseLogId;
 
-    @Column(name = "action")
-    private Long action;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "action", length = 20)
+    private ExpenseLogAction action;
 
     @Column(name = "comments")
     private String comments;
@@ -35,4 +40,8 @@ public class ExpenseLog {
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

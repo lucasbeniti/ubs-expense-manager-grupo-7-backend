@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExpenseLogResponseDto {
-    private Long expense_log_id;
-    private Long action;
+    private Long expenseLogId;
+    private String action;
     private String comments;
-    private Long expense_id;
-    private Long employee_id;
-    private LocalDateTime created_at;
+    private Long expenseId;
+    private Long employeeId;
+    private LocalDateTime createdAt;
 }
