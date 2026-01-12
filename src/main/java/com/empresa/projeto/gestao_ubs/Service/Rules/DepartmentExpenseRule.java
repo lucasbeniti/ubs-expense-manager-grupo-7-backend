@@ -27,27 +27,27 @@ public class DepartmentExpenseRule implements ExpenseRule {
             return Optional.empty();
         }
 
-        BigDecimal departmentMonthlyBudget = expense.getEmployee().getDepartment().getMonthly_budget();
+        BigDecimal departmentMonthlyBudget = expense.getEmployee().getDepartment().getMonthlyBudget();
         if (departmentMonthlyBudget == null) return Optional.empty();
 
         YearMonth currentMonth = YearMonth.now();
         LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
         BigDecimal totalThisMonth = expenseRepository.sumExpenseByDepartment(
-                expense.getEmployee().getDepartment().getDepartment_id(),
+                expense.getEmployee().getDepartment().getDepartmentId(),
                 startOfMonth,
                 endOfMonth
         );
 
-        BigDecimal totalWithNewExpense = totalThisMonth.add(BigDecimal.valueOf(expense.getAmount()));
+        BigDecimal totalWithNewExpense = totalThisMonth.add(expense.getAmount());
 
         if (totalWithNewExpense.compareTo(departmentMonthlyBudget) > 0) {
             AlertCreateDto alert = new AlertCreateDto();
-            alert.setExpense_id(expense.getExpense_id());
+            alert.setExpense_id(expense.getExpenseId());
             alert.setMessage("Despesa excedeu o limite mensal do departamento");
             alert.setSeverity("MEDIUM");
             alert.setStatus("NEW");
-            alert.setType(2L); // tipo = departamento
+            alert.setType(String.valueOf(2L)); // tipo = departamento
             return Optional.of(alert);
         }
 

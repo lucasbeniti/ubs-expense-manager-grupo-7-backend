@@ -70,9 +70,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Query("""
         SELECT COALESCE(SUM(e.amount), 0)
         FROM Expense e
-        WHERE e.category.category_id = :categoryId
-          AND e.created_at >= :start
-          AND e.created_at < :end
+        WHERE e.category.categoryId = :categoryId
+          AND e.createdAt >= :start
+          AND e.createdAt < :end
     """)
     BigDecimal sumExpenseByCategory(
             @Param("categoryId") Long categoryId,
@@ -80,8 +80,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             @Param("end") LocalDateTime end);
 
     @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expense e " +
-            "WHERE e.employee.department.department_id = :departmentId " +
-            "AND e.created_at BETWEEN :start AND :end")
+            "WHERE e.employee.department.departmentId = :departmentId " +
+            "AND e.createdAt BETWEEN :start AND :end")
     BigDecimal sumExpenseByDepartment(@Param("departmentId") Long departmentId,
                                     @Param("start") LocalDateTime start,
                                     @Param("end") LocalDateTime end);

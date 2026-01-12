@@ -21,7 +21,7 @@ public class MCategoryExpenseRule implements ExpenseRule {
     @Override
     public Optional<AlertCreateDto> check(Expense expense) {
         if (expense.getCategory() == null) return Optional.empty();
-        if (expense.getCategory().getMonthly_limit() == null) return Optional.empty();
+        if (expense.getCategory().getMonthlyLimit() == null) return Optional.empty();
 
         YearMonth currentMonth = YearMonth.now();
         LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
@@ -29,20 +29,20 @@ public class MCategoryExpenseRule implements ExpenseRule {
 
         BigDecimal totalThisMonth=
                 expenseRepository.sumExpenseByCategory(
-                        expense.getCategory().getCategory_id(),
+                        expense.getCategory().getCategoryId(),
                         startOfMonth,
                         endOfMonth
                 );
 
-        BigDecimal totalWithNewExpense = totalThisMonth.add(BigDecimal.valueOf(expense.getAmount()));
+        BigDecimal totalWithNewExpense = totalThisMonth.add(expense.getAmount());
 
-        if (totalWithNewExpense.compareTo(expense.getCategory().getMonthly_limit()) > 0) {
+        if (totalWithNewExpense.compareTo(expense.getCategory().getMonthlyLimit()) > 0) {
             AlertCreateDto alert = new AlertCreateDto();
-            alert.setExpense_id(expense.getExpense_id());
+            alert.setExpense_id(expense.getExpenseId());
             alert.setMessage("Despesa excedeu o limite mensal da categoria");
             alert.setSeverity("HIGH");
             alert.setStatus("NEW");
-            alert.setType(1L); // tipo = categoria
+            alert.setType(String.valueOf(1L)); // tipo = categoria
             return Optional.of(alert);
         }
 

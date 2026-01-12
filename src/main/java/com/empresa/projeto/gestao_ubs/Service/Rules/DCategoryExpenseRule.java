@@ -20,27 +20,27 @@ public class DCategoryExpenseRule implements ExpenseRule {
     @Override
     public Optional<AlertCreateDto> check(Expense expense) {
         if (expense.getCategory() == null) return Optional.empty();
-        if (expense.getCategory().getDaily_limit() == null) return Optional.empty();
+        if (expense.getCategory().getDailyLimit() == null) return Optional.empty();
 
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
         LocalDateTime endOfDay = startOfDay.plusDays(1);
         BigDecimal totalToday =
                 expenseRepository.sumExpenseByCategory(
-                        expense.getCategory().getCategory_id(),
+                        expense.getCategory().getCategoryId(),
                         startOfDay,
                         endOfDay
                 );
 
         BigDecimal totalWithNewExpense =
-                totalToday.add(BigDecimal.valueOf(expense.getAmount()));
+                totalToday.add(expense.getAmount());
 
-        if (totalWithNewExpense.compareTo(expense.getCategory().getDaily_limit()) > 0) {
+        if (totalWithNewExpense.compareTo(expense.getCategory().getDailyLimit()) > 0) {
             AlertCreateDto alert = new AlertCreateDto();
-            alert.setExpense_id(expense.getExpense_id());
+            alert.setExpense_id(expense.getExpenseId());
             alert.setMessage("Despesa excedeu o limite diário da categoria");
             alert.setSeverity("HIGH");
             alert.setStatus("NEW");
-            alert.setType(1L); // tipo = categoria
+            alert.setType(String.valueOf(1L)); // tipo = categoria
             return Optional.of(alert);
         }
         return Optional.empty();
