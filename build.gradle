@@ -18,6 +18,11 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set('testcontainers.version', "1.19.8")
+}
+
+
 dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-flyway'
@@ -33,7 +38,13 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	testImplementation 'org.testcontainers:junit-jupiter'
+
+	testImplementation 'org.testcontainers:postgresql:1.19.0'
+
 
 	compileOnly("org.projectlombok:lombok:1.18.42")
 	annotationProcessor("org.projectlombok:lombok:1.18.42")

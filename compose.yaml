@@ -1,11 +1,33 @@
+version: '3.8'
+
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:latest
     environment:
-      - 'POSTGRES_DB=db_ubs_gestao'
-      - 'POSTGRES_PASSWORD=root'
-      - 'POSTGRES_USER=root'
+      POSTGRES_DB: db_ubs_gestao
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
     ports:
       - '5432:5432'
     volumes:
       - ./postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d db_ubs_gestao"]
+      interval: 5s
+      retries: 5
+
+  spring-app:
+    build:
+      context: .
+      args:
+        JAR_FILE: build/libs/gestao_ubs-0.0.1-SNAPSHOT.jar
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_ubs_gestao
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
