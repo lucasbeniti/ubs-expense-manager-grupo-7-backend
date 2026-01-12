@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlertResponseDto {
-    private Long alert_id;
+    private Long id;
     private String message;
     private String severity;
     private String status;
     private String type;
-    private Long expense_id;
-    private String expense_description;
-    private LocalDateTime created_at;
+    private Long expenseId;
+    private String expenseDescription;
+    private LocalDateTime createdAt;
 }

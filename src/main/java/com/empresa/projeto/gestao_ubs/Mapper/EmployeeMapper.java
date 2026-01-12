@@ -31,14 +31,14 @@ public class EmployeeMapper {
 
     public static EmployeeResponseDto toResponseDto(Employee employee) {
         return new EmployeeResponseDto(
-                employee.getEmployeeId(),
+                employee.getId(),
                 employee.getName(),
                 employee.getCpf(),
                 employee.getEmail(),
                 employee.getRole().name(),
 
                 employee.getDepartment() != null
-                        ? employee.getDepartment().getDepartmentId()
+                        ? employee.getDepartment().getId()
                         : null,
 
                 employee.getDepartment() != null
@@ -46,7 +46,7 @@ public class EmployeeMapper {
                         : null,
 
                 employee.getManager() != null
-                        ? employee.getManager().getEmployeeId()
+                        ? employee.getManager().getId()
                         : null,
 
                 employee.getManager() != null

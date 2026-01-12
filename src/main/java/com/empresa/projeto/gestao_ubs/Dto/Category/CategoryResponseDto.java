@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CategoryResponseDto {
 
-    private Long category_id;
+    private Long id;
     private String name;
-    private BigDecimal daily_limit;
-    private BigDecimal monthly_limit;
-    private LocalDateTime created_at;
+    private BigDecimal dailyLimit;
+    private BigDecimal monthlyLimit;
+    private LocalDateTime createdAt;
 }

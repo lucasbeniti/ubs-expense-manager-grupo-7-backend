@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "employees")
@@ -22,11 +21,8 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
-    private Long employeeId;
-
-    @Column(name = "employee_uuid", nullable = false, unique = true, updatable = false)
-    private UUID employeeUuid;
+    @Column(name = "id")
+    private Long id;
 
     @NotBlank
     @Column(nullable = false, length = 150)
@@ -46,11 +42,11 @@ public class Employee {
     private EmployeeRole role;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "fk_department_id", nullable = false)
+    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_manager_id")
+    @JoinColumn(name = "manager_id")
     private Employee manager;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -59,7 +55,6 @@ public class Employee {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        this.employeeUuid = UUID.randomUUID();
     }
 }
 

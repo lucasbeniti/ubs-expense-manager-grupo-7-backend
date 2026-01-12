@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CurrencyResponseDto {
 
-    private Long currency_id;
+    private Long id;
     private String code;
     private String name;
     private Boolean active;

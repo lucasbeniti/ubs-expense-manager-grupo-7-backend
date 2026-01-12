@@ -8,8 +8,8 @@ public class CategoryMapper {
     public static Category toEntity(CategoryCreateDto dto) {
         Category category = new Category();
         category.setName(dto.getName());
-        category.setDailyLimit(dto.getDaily_limit());
-        category.setMonthlyLimit(dto.getMonthly_limit());
+        category.setDailyLimit(dto.getDailyLimit());
+        category.setMonthlyLimit(dto.getMonthlyLimit());
         return category;
     }
 
@@ -18,17 +18,17 @@ public class CategoryMapper {
         if (dto.getName() != null) {
             category.setName(dto.getName());
         }
-        if (dto.getDaily_limit() != null) {
-            category.setDailyLimit(dto.getDaily_limit());
+        if (dto.getDailyLimit() != null) {
+            category.setDailyLimit(dto.getDailyLimit());
         }
-        if (dto.getMonthly_limit() != null) {
-            category.setMonthlyLimit(dto.getMonthly_limit());
+        if (dto.getMonthlyLimit() != null) {
+            category.setMonthlyLimit(dto.getMonthlyLimit());
         }
     }
 
     public static CategoryResponseDto toResponseDto(Category category) {
         return new CategoryResponseDto(
-                category.getCategoryId(),
+                category.getId(),
                 category.getName(),
                 category.getDailyLimit(),
                 category.getMonthlyLimit(),

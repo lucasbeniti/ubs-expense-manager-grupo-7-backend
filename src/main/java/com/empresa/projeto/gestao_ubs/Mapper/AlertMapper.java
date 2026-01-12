@@ -22,13 +22,13 @@ public class AlertMapper {
         Expense expense = alert.getExpense();
 
         return new AlertResponseDto(
-                alert.getAlertId(),
+                alert.getId(),
                 alert.getMessage(),
                 alert.getSeverity(),
                 alert.getStatus().name(),
                 alert.getType().name(),
 
-                expense != null ? expense.getExpenseId() : null,
+                expense != null ? expense.getId() : null,
                 expense != null ? expense.getDescription() : null,
 
                 alert.getCreatedAt()

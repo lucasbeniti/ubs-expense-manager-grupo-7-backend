@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "alerts")
@@ -18,11 +17,8 @@ public class Alert {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "alert_id")
-    private Long alertId;
-
-    @Column(name = "alert_uuid", nullable = false, unique = true, updatable = false)
-    private UUID alertUuid;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "message", nullable = false)
     private String message;
@@ -39,7 +35,7 @@ public class Alert {
     private AlertType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_expense_id")
+    @JoinColumn(name = "expense_id")
     private Expense expense;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -48,7 +44,6 @@ public class Alert {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        this.alertUuid = UUID.randomUUID();
 
         if (this.status == null) {
             this.status = AlertStatus.NEW;

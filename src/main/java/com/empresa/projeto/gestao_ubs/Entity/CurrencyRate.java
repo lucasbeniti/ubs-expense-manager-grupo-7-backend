@@ -7,7 +7,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,14 +17,11 @@ public class CurrencyRate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "currency_rate_id")
-    private Long currencyRateId;
-
-    @Column(name = "currency_rate_uuid", nullable = false, unique = true, updatable = false)
-    private UUID currencyRateUuid;
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "fk_currency_id", nullable = false)
+    @JoinColumn(name = "currency_id", nullable = false)
     private Currency currency;
 
     @NotNull
@@ -42,7 +38,6 @@ public class CurrencyRate {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        this.currencyRateUuid = UUID.randomUUID();
     }
 }
 

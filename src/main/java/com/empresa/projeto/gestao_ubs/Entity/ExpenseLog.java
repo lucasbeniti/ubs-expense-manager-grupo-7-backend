@@ -1,7 +1,5 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
-import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
-import com.empresa.projeto.gestao_ubs.Enums.AlertType;
 import com.empresa.projeto.gestao_ubs.Enums.ExpenseLogAction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "expense_logs")
@@ -20,7 +17,8 @@ public class ExpenseLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long expenseLogId;
+    @Column(name = "id")
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action", length = 20)
@@ -30,11 +28,11 @@ public class ExpenseLog {
     private String comments;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_expense_id")
+    @JoinColumn(name = "expense_id")
     private Expense expense;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_employee_id")
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @Column(name="created_at")

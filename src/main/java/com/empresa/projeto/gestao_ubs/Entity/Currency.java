@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "currencies")
@@ -18,11 +17,8 @@ public class Currency {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "currency_id")
-    private Long currencyId;
-
-    @Column(name = "currency_uuid", nullable = false, unique = true, updatable = false)
-    private UUID currencyUuid;
+    @Column(name = "id")
+    private Long id;
 
     @NotBlank
     @Size(min = 3, max = 3)
@@ -42,7 +38,6 @@ public class Currency {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        this.currencyUuid = UUID.randomUUID();
     }
 }
 

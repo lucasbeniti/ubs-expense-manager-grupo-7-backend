@@ -22,12 +22,12 @@ public class ExpenseLogMapper {
         Expense expense = expenseLog.getExpense();
 
         return new ExpenseLogResponseDto(
-                expenseLog.getExpenseLogId(),
+                expenseLog.getId(),
                 expenseLog.getAction().name(),
                 expenseLog.getComments(),
 
-                expense != null ? expense.getExpenseId() : null,
-                employee != null ? employee.getEmployeeId() : null,
+                expense != null ? expense.getId() : null,
+                employee != null ? employee.getId() : null,
 
                 expenseLog.getCreatedAt()
         );

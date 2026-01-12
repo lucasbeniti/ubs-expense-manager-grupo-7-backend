@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlertUpdateDto {
-    private Long alert_id;
+    private Long id;
     private String status;
 }

@@ -27,7 +27,7 @@ public class AlertServiceImpl implements AlertService {
         Alert alert = AlertMapper.toEntity(dto);
 
         alert.setExpense(
-                expenseRepository.findById(dto.getExpense_id())
+                expenseRepository.findById(dto.getExpenseId())
                         .orElseThrow(() -> new ResourceNotFoundException("Expense not found"))
         );
 

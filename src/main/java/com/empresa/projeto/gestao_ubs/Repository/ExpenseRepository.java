@@ -21,8 +21,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
         LEFT JOIN FETCH e.category c
         JOIN FETCH e.currency cur
         WHERE e.date BETWEEN :start AND :end
-        AND (:employee_id IS NULL OR emp.employeeId = :employee_id)
-        AND (:category_id IS NULL OR c.categoryId = :category_id)  \s
+        AND (:employee_id IS NULL OR emp.id = :employee_id)
+        AND (:category_id IS NULL OR c.id = :category_id)  \s
         ORDER BY emp.name, e.date
    \s""")
     List<Expense> findExpensesForEmployeeReport(
@@ -34,14 +34,14 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     @Query("""
         SELECT new com.empresa.projeto.gestao_ubs.Dto.Report.CategoryExpense.CategoryExpenseDto(
-            c.categoryId,
+            c.id,
             c.name,
             MAX(e.amount)
         )
         FROM Expense e
         JOIN e.category c
-        WHERE (:category_id IS NULL OR c.categoryId = :category_id)
-        GROUP BY c.categoryId, c.name
+        WHERE (:category_id IS NULL OR c.id = :category_id)
+        GROUP BY c.id, c.name
         ORDER BY MAX(e.amount) DESC
     """)
 
@@ -51,7 +51,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     @Query("""
         SELECT new com.empresa.projeto.gestao_ubs.Dto.Report.DepartmentExpense.DepartmentExpenseDto(
-            d.departmentId,
+            d.id,
             d.name,
             d.monthlyBudget,
             MAX(e.amount)
@@ -59,8 +59,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
         FROM Expense e
         JOIN e.employee emp
         JOIN emp.department d
-        WHERE (:department_id IS NULL OR d.departmentId = :department_id)
-        GROUP BY d.departmentId, d.name, d.monthlyBudget
+        WHERE (:department_id IS NULL OR d.id = :department_id)
+        GROUP BY d.id, d.name, d.monthlyBudget
         ORDER BY MAX(e.amount) DESC
     """)
     List<DepartmentExpenseDto> findExpenseByDepartment(
@@ -70,7 +70,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Query("""
         SELECT COALESCE(SUM(e.amount), 0)
         FROM Expense e
-        WHERE e.category.categoryId = :categoryId
+        WHERE e.category.id = :categoryId
           AND e.createdAt >= :start
           AND e.createdAt < :end
     """)
@@ -80,7 +80,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             @Param("end") LocalDateTime end);
 
     @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expense e " +
-            "WHERE e.employee.department.departmentId = :departmentId " +
+            "WHERE e.employee.department.id = :departmentId " +
             "AND e.createdAt BETWEEN :start AND :end")
     BigDecimal sumExpenseByDepartment(@Param("departmentId") Long departmentId,
                                     @Param("start") LocalDateTime start,

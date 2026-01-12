@@ -26,11 +26,11 @@ public class ExpenseLogServiceImpl implements ExpenseLogService {
         ExpenseLog expenseLog = ExpenseLogMapper.toEntity(dto);
 
         expenseLog.setExpense(
-                expenseRepository.findById(dto.getExpense_id())
+                expenseRepository.findById(dto.getExpenseId())
                         .orElseThrow(() -> new ResourceNotFoundException("Expense not found"))
         );
         expenseLog.setEmployee(
-                employeeRepository.findById(dto.getEmployee_id())
+                employeeRepository.findById(dto.getEmployeeId())
                         .orElseThrow(() -> new ResourceNotFoundException("Employee not found"))
         );
 

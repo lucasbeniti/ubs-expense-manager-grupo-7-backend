@@ -34,7 +34,7 @@ public class DepartmentExpenseRule implements ExpenseRule {
         LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
         BigDecimal totalThisMonth = expenseRepository.sumExpenseByDepartment(
-                expense.getEmployee().getDepartment().getDepartmentId(),
+                expense.getEmployee().getDepartment().getId(),
                 startOfMonth,
                 endOfMonth
         );
@@ -43,7 +43,7 @@ public class DepartmentExpenseRule implements ExpenseRule {
 
         if (totalWithNewExpense.compareTo(departmentMonthlyBudget) > 0) {
             AlertCreateDto alert = new AlertCreateDto();
-            alert.setExpense_id(expense.getExpenseId());
+            alert.setExpenseId(expense.getId());
             alert.setMessage("Despesa excedeu o limite mensal do departamento");
             alert.setSeverity("MEDIUM");
             alert.setStatus("NEW");

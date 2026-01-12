@@ -23,10 +23,10 @@ public class CurrencyRateServiceImpl implements CurrencyRateService {
 
     @Override
     public CurrencyRateResponseDto createCurrencyRate(CurrencyRateCreateDto dto) {
-        Currency currency = currencyRepository.findById(dto.getCurrency_id())
+        Currency currency = currencyRepository.findById(dto.getCurrencyId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Currency with given id: " + dto.getCurrency_id() + " does not exist"
+                                "Currency with given id: " + dto.getCurrencyId() + " does not exist"
                         )
                 );
 
@@ -68,10 +68,10 @@ public class CurrencyRateServiceImpl implements CurrencyRateService {
                         )
                 );
 
-        Currency currency = currencyRepository.findById(dto.getCurrency_id())
+        Currency currency = currencyRepository.findById(dto.getCurrencyId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Currency with given id: " + dto.getCurrency_id() + " does not exist"
+                                "Currency with given id: " + dto.getCurrencyId() + " does not exist"
                         )
                 );
 

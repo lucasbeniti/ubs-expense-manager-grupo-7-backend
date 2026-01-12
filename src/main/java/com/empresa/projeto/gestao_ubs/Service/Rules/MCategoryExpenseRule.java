@@ -29,7 +29,7 @@ public class MCategoryExpenseRule implements ExpenseRule {
 
         BigDecimal totalThisMonth=
                 expenseRepository.sumExpenseByCategory(
-                        expense.getCategory().getCategoryId(),
+                        expense.getCategory().getId(),
                         startOfMonth,
                         endOfMonth
                 );
@@ -38,7 +38,7 @@ public class MCategoryExpenseRule implements ExpenseRule {
 
         if (totalWithNewExpense.compareTo(expense.getCategory().getMonthlyLimit()) > 0) {
             AlertCreateDto alert = new AlertCreateDto();
-            alert.setExpense_id(expense.getExpenseId());
+            alert.setExpenseId(expense.getId());
             alert.setMessage("Despesa excedeu o limite mensal da categoria");
             alert.setSeverity("HIGH");
             alert.setStatus("NEW");

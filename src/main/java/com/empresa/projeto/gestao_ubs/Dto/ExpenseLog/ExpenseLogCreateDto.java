@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class ExpenseLogCreateDto {
     private String action;
     private String comments;
-    private Long expense_id;
-    private Long employee_id;
+    private Long expenseId;
+    private Long employeeId;
 }

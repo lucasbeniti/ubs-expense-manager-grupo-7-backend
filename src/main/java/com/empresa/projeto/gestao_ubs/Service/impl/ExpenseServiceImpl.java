@@ -37,18 +37,17 @@ public class ExpenseServiceImpl implements ExpenseService {
     public ExpenseResponseDto createExpenses(ExpenseCreateDto dto) {
 
         Expense expense = ExpenseMapper.toEntity(dto);
-        // Set FK relations
         expense.setCurrency(
-                currencyRepository.findById(dto.getCurrency_id())
+                currencyRepository.findById(dto.getCurrencyId())
                         .orElseThrow(() -> new ResourceNotFoundException("Currency not found"))
         );
         expense.setEmployee(
-                employeeRepository.findById(dto.getEmployee_id())
+                employeeRepository.findById(dto.getEmployeeId())
                         .orElseThrow(() -> new ResourceNotFoundException("Employee not found"))
         );
-        if (dto.getCategory_id() != null) {
+        if (dto.getCategoryId() != null) {
             expense.setCategory(
-                    categoryRepository.findById(dto.getCategory_id())
+                    categoryRepository.findById(dto.getCategoryId())
                             .orElseThrow(() -> new ResourceNotFoundException("Category not found"))
             );
         }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExpenseLogResponseDto {
-    private Long expenseLogId;
+    private Long id;
     private String action;
     private String comments;
     private Long expenseId;

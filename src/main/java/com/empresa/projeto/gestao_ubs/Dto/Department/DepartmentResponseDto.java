@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DepartmentResponseDto {
 
-    private Long department_id;
+    private Long id;
     private String name;
-    private BigDecimal monthly_budget;
-    private LocalDateTime created_at;
+    private BigDecimal monthlyBudget;
+    private LocalDateTime createdAt;
 }

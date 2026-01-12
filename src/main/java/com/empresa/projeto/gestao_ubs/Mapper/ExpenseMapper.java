@@ -14,7 +14,7 @@ public class ExpenseMapper {
         Expense expense = new Expense();
         expense.setDescription(dto.getDescription());
         expense.setDate(dto.getDate());
-        expense.setReceiptUrl(dto.getReceipt_url());
+        expense.setReceiptUrl(dto.getReceiptUrl());
         expense.setStatus(ExpenseStatus.valueOf(dto.getStatus()));
         expense.setAmount(dto.getAmount());
 
@@ -27,24 +27,24 @@ public class ExpenseMapper {
         Category category = expense.getCategory();
 
         return new ExpenseResponseDto(
-                expense.getExpenseId(),
+                expense.getId(),
                 expense.getDescription(),
                 expense.getDate(),
                 expense.getReceiptUrl(),
                 expense.getStatus().name(),
                 expense.getAmount(),
 
-                currency != null ? currency.getCurrencyId() : null,
+                currency != null ? currency.getId() : null,
                 currency != null ? currency.getCode() : null,
                 currency != null ? currency.getName() : null,
 
                 expense.getExchangeRateSnapshot(),
 
-                employee != null ? employee.getEmployeeId() : null,
+                employee != null ? employee.getId() : null,
                 employee != null ? employee.getName() : null,
                 employee != null ? employee.getRole().name() : null,
 
-                category != null ? category.getCategoryId() : null,
+                category != null ? category.getId() : null,
                 category != null ? category.getName() : null,
                 category != null ? category.getDailyLimit() : null,
                 category != null ? category.getMonthlyLimit() : null,

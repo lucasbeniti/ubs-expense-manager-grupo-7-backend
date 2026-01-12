@@ -11,7 +11,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
@@ -23,11 +22,8 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
-    private Long categoryId;
-
-    @Column(name = "category_uuid", nullable = false, unique = true, updatable = false)
-    private UUID categoryUuid;
+    @Column(name = "id")
+    private Long id;
 
     @NotBlank
     @Column(nullable = false, unique = true, length = 50)
@@ -49,7 +45,6 @@ public class Category {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        this.categoryUuid = UUID.randomUUID();
     }
 }
 

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 public class CurrencyRateUpdateDto {
 
-    private Long currency_id;
+    private Long currencyId;
     private BigDecimal rate;
     private LocalDate valid_date;
 }

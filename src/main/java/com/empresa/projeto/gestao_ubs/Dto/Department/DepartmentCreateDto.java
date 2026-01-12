@@ -11,5 +11,5 @@ import java.math.BigDecimal;
 public class DepartmentCreateDto {
 
     private String name;
-    private BigDecimal monthly_budget;
+    private BigDecimal monthlyBudget;
 }

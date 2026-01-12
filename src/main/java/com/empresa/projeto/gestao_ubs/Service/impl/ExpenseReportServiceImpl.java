@@ -34,7 +34,7 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
 
         Map<Long, List<Expense>> expensesByEmployee =
                 expenses.stream().collect(Collectors.groupingBy(
-                        e -> e.getEmployee().getEmployeeId()
+                        e -> e.getEmployee().getId()
                 ));
 
         List<EmployeeExpenseReportDto> report = new ArrayList<>();
@@ -50,7 +50,7 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
             List<EmployeeExpenseDto> items =
                     employeeExpenses.stream()
                             .map(e -> new EmployeeExpenseDto(
-                                    e.getExpenseId(),
+                                    e.getId(),
                                     e.getDate(),
                                     e.getDescription(),
                                     e.getCategory() != null ? e.getCategory().getName() : null,
@@ -61,7 +61,7 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
                             .toList();
 
             report.add(new EmployeeExpenseReportDto(
-                    first.getEmployee().getEmployeeId(),
+                    first.getEmployee().getId(),
                     first.getEmployee().getName(),
                     totalAmount,
                     items

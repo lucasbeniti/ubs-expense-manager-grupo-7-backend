@@ -10,17 +10,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class EmployeeResponseDto {
 
-    private Long employee_id;
+    private Long id;
     private String name;
     private String cpf;
     private String email;
     private String role;
 
-    private Long department_id;
-    private String department_name;
+    private Long departmentId;
+    private String departmentName;
 
-    private Long manager_id;
-    private String manager_name;
+    private Long managerId;
+    private String managerName;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 }

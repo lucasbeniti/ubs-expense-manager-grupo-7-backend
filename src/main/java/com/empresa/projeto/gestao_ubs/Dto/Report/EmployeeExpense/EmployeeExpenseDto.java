@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record EmployeeExpenseDto(
-        Long expense_id,
+        Long expenseId,
         LocalDate date,
         String description,
-        String category_name,
+        String categoryName,
         BigDecimal amount,
-        String currency_code,
+        String currencyCode,
         String status
 ) {}

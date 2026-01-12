@@ -15,22 +15,22 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ExpenseResponseDto {
 
-    private Long expense_id;
+    private Long id;
     private String description;
     private LocalDate date;
-    private String receipt_url;
+    private String receiptUrl;
     private String status;
     private BigDecimal amount;
-    private Long currency_id;
-    private String currency_code;
-    private String currency_name;
-    private BigDecimal exchange_rate_snapshot;
-    private Long employee_id;
-    private String employee_name;
-    private String employee_role;
-    private Long category_id;
-    private String category_name;
-    private BigDecimal daily_limit;
-    private BigDecimal monthly_limit;
-    private LocalDateTime created_at;
+    private Long currencyId;
+    private String currencyCode;
+    private String currencyName;
+    private BigDecimal exchangeRateSnapshot;
+    private Long employeeId;
+    private String employeeName;
+    private String employeeRole;
+    private Long categoryId;
+    private String categoryName;
+    private BigDecimal dailyLimit;
+    private BigDecimal monthlyLimit;
+    private LocalDateTime createdAt;
 }

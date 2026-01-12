@@ -21,7 +21,7 @@ public class CurrencyMapper {
 
     public static CurrencyResponseDto toResponseDto(Currency currency) {
         CurrencyResponseDto dto = new CurrencyResponseDto();
-        dto.setCurrency_id(currency.getCurrencyId());
+        dto.setId(currency.getId());
         dto.setCode(currency.getCode());
         dto.setName(currency.getName());
         dto.setActive(currency.getActive());

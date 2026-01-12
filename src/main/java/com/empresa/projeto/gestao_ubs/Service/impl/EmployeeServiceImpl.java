@@ -26,13 +26,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = EmployeeMapper.toEntity(dto);
 
         employee.setDepartment(
-                departmentRepository.findById(dto.getDepartment_id())
+                departmentRepository.findById(dto.getDepartmentId())
                         .orElseThrow(() ->
                                 new ResourceNotFoundException("Department not found"))
         );
 
-        if (dto.getManager_id() != null) {
-            Employee manager = employeeRepository.findById(dto.getManager_id())
+        if (dto.getManagerId() != null) {
+            Employee manager = employeeRepository.findById(dto.getManagerId())
                     .orElseThrow(() ->
                             new ResourceNotFoundException("Manager not found"));
 
@@ -67,20 +67,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         EmployeeMapper.updateEntity(employee, dto);
 
-        if (dto.getDepartment_id() != null) {
+        if (dto.getDepartmentId() != null) {
             employee.setDepartment(
-                    departmentRepository.findById(dto.getDepartment_id())
+                    departmentRepository.findById(dto.getDepartmentId())
                             .orElseThrow(() ->
                                     new ResourceNotFoundException("Department not found"))
             );
         }
 
-        if (dto.getManager_id() != null) {
-            if (dto.getManager_id().equals(employeeId)) {
+        if (dto.getManagerId() != null) {
+            if (dto.getManagerId().equals(employeeId)) {
                 throw new IllegalArgumentException("Employee cannot be their own manager");
             }
 
-            Employee manager = employeeRepository.findById(dto.getManager_id())
+            Employee manager = employeeRepository.findById(dto.getManagerId())
                     .orElseThrow(() ->
                             new ResourceNotFoundException("Manager not found"));
 

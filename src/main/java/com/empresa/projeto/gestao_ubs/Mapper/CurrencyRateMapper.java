@@ -29,11 +29,11 @@ public class CurrencyRateMapper {
 
     public static CurrencyRateResponseDto toResponseDto(CurrencyRate rate) {
         CurrencyRateResponseDto dto = new CurrencyRateResponseDto();
-        dto.setCurrency_rate_id(rate.getCurrencyRateId());
-        dto.setCurrency_id(rate.getCurrency().getCurrencyId());
-        dto.setCurrency_code(rate.getCurrency().getCode());
+        dto.setId(rate.getId());
+        dto.setCurrencyId(rate.getCurrency().getId());
+        dto.setCurrencyCode(rate.getCurrency().getCode());
         dto.setRate(rate.getRate());
-        dto.setValid_date(rate.getValidDate());
+        dto.setValidDate(rate.getValidDate());
         return dto;
     }
 }

@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record EmployeeExpenseReportDto(
-        Long employee_id,
-        String employee_name,
-        BigDecimal total_amount,
+        Long employeeId,
+        String employeeName,
+        BigDecimal totalAmount,
         List<EmployeeExpenseDto> expenses
 ) {}

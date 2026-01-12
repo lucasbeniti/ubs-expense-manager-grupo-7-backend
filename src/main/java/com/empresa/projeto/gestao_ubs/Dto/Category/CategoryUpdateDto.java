@@ -11,6 +11,6 @@ import java.math.BigDecimal;
 public class CategoryUpdateDto {
 
     private String name;
-    private BigDecimal daily_limit;
-    private BigDecimal monthly_limit;
+    private BigDecimal dailyLimit;
+    private BigDecimal monthlyLimit;
 }
