@@ -1,9 +1,11 @@
 package com.empresa.projeto.gestao_ubs.Service.impl;
 
+import com.empresa.projeto.gestao_ubs.Dto.Currency.CurrencyResponseDto;
 import com.empresa.projeto.gestao_ubs.Dto.ExpenseLog.ExpenseLogCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.ExpenseLog.ExpenseLogResponseDto;
 import com.empresa.projeto.gestao_ubs.Entity.ExpenseLog;
 import com.empresa.projeto.gestao_ubs.Exception.ResourceNotFoundException;
+import com.empresa.projeto.gestao_ubs.Mapper.CurrencyMapper;
 import com.empresa.projeto.gestao_ubs.Mapper.ExpenseLogMapper;
 import com.empresa.projeto.gestao_ubs.Repository.EmployeeRepository;
 import com.empresa.projeto.gestao_ubs.Repository.ExpenseLogRepository;
@@ -11,6 +13,9 @@ import com.empresa.projeto.gestao_ubs.Repository.ExpenseRepository;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseLogService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -36,6 +41,14 @@ public class ExpenseLogServiceImpl implements ExpenseLogService {
 
         ExpenseLog saved = expenseLogRepository.save(expenseLog);
         return ExpenseLogMapper.toResponseDto(saved);
+    }
+
+    @Override
+    public List<ExpenseLogResponseDto> getAllExpenseLogs() {
+        return expenseLogRepository.findAll()
+                .stream()
+                .map(ExpenseLogMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
 }

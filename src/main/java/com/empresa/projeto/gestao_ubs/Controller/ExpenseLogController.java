@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @Tag(name = "Expense Logs", description = "APIs endpoints for managing expense logs")
 @AllArgsConstructor
@@ -23,5 +25,11 @@ public class ExpenseLogController {
     @Operation(summary = "Add new expense log", description = "Add log")
     public ResponseEntity<ExpenseLogResponseDto> newExpenseLog(@RequestBody ExpenseLogCreateDto dto) {
         return new ResponseEntity<>(expenseLogService.newExpenseLog(dto), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    @Operation(summary = "List all expenses log", description = "List all log")
+    public ResponseEntity<List<ExpenseLogResponseDto>> getAll() {
+        return ResponseEntity.ok(expenseLogService.getAllExpenseLogs());
     }
 }
