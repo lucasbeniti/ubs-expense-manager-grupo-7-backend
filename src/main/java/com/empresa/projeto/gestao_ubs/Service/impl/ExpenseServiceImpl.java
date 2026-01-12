@@ -1,5 +1,6 @@
 package com.empresa.projeto.gestao_ubs.Service.impl;
 
+import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseResponseDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseUpdateStatusDto;
@@ -10,6 +11,8 @@ import com.empresa.projeto.gestao_ubs.Repository.CurrencyRepository;
 import com.empresa.projeto.gestao_ubs.Repository.EmployeeRepository;
 import com.empresa.projeto.gestao_ubs.Repository.ExpenseRepository;
 import com.empresa.projeto.gestao_ubs.Repository.CategoryRepository;
+import com.empresa.projeto.gestao_ubs.Service.AlertService;
+import com.empresa.projeto.gestao_ubs.Service.ExpenseRulesService;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final CurrencyRepository currencyRepository;
     private final EmployeeRepository employeeRepository;
     private final CategoryRepository categoryRepository;
+    private final ExpenseRulesService expenseRuleService;
+
+    private final AlertService alertService;
 
     @Override
     public ExpenseResponseDto createExpenses(ExpenseCreateDto dto) {
@@ -48,6 +54,12 @@ public class ExpenseServiceImpl implements ExpenseService {
         }
         expense.setExchangeRateSnapshot(BigDecimal.ONE);
         Expense saved = expensesRepository.save(expense);
+
+
+        List<AlertCreateDto> alerts = expenseRuleService.checkAll(saved);
+        alerts.forEach(alertService::newAlert);
+
+
 
         return ExpenseMapper.toResponseDto(saved);
     }

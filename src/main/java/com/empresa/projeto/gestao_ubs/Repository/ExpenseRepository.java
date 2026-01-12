@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
@@ -64,4 +66,25 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<DepartmentExpenseDto> findExpenseByDepartment(
             @Param("department_id") Long departmentId
     );
+
+    @Query("""
+        SELECT COALESCE(SUM(e.amount), 0)
+        FROM Expense e
+        WHERE e.category.category_id = :categoryId
+          AND e.created_at >= :start
+          AND e.created_at < :end
+    """)
+    BigDecimal sumExpenseByCategory(
+            @Param("categoryId") Long categoryId,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end);
+
+    @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expense e " +
+            "WHERE e.employee.department.department_id = :departmentId " +
+            "AND e.created_at BETWEEN :start AND :end")
+    BigDecimal sumExpenseByDepartment(@Param("departmentId") Long departmentId,
+                                    @Param("start") LocalDateTime start,
+                                    @Param("end") LocalDateTime end);
+
+
 }
