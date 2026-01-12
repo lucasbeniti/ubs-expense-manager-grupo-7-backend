@@ -4,6 +4,7 @@ import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeUpdateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeResponseDto;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
+import com.empresa.projeto.gestao_ubs.Enums.EmployeeRole;
 
 public class EmployeeMapper {
 
@@ -12,7 +13,7 @@ public class EmployeeMapper {
         employee.setName(dto.getName());
         employee.setCpf(dto.getCpf());
         employee.setEmail(dto.getEmail());
-        employee.setRole(dto.getRole());
+        employee.setRole(EmployeeRole.valueOf(dto.getRole().toUpperCase()));
         return employee;
     }
 
@@ -24,20 +25,20 @@ public class EmployeeMapper {
             employee.setEmail(dto.getEmail());
         }
         if (dto.getRole() != null) {
-            employee.setRole(dto.getRole());
+            employee.setRole(EmployeeRole.valueOf(dto.getRole().toUpperCase()));
         }
     }
 
     public static EmployeeResponseDto toResponseDto(Employee employee) {
         return new EmployeeResponseDto(
-                employee.getEmployee_id(),
+                employee.getEmployeeId(),
                 employee.getName(),
                 employee.getCpf(),
                 employee.getEmail(),
-                employee.getRole(),
+                employee.getRole().name(),
 
                 employee.getDepartment() != null
-                        ? employee.getDepartment().getDepartment_id()
+                        ? employee.getDepartment().getDepartmentId()
                         : null,
 
                 employee.getDepartment() != null
@@ -45,14 +46,14 @@ public class EmployeeMapper {
                         : null,
 
                 employee.getManager() != null
-                        ? employee.getManager().getEmployee_id()
+                        ? employee.getManager().getEmployeeId()
                         : null,
 
                 employee.getManager() != null
                         ? employee.getManager().getName()
                         : null,
 
-                employee.getCreated_at()
+                employee.getCreatedAt()
         );
     }
 }

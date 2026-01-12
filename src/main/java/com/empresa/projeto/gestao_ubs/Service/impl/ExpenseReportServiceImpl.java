@@ -1,6 +1,5 @@
 package com.empresa.projeto.gestao_ubs.Service.impl;
 
-import com.empresa.projeto.gestao_ubs.Dto.Report.DepartmentExpense.DepartmentExpenseDto;
 import com.empresa.projeto.gestao_ubs.Dto.Report.EmployeeExpense.EmployeeExpenseDto;
 import com.empresa.projeto.gestao_ubs.Dto.Report.EmployeeExpense.EmployeeExpenseReportDto;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
@@ -9,6 +8,7 @@ import com.empresa.projeto.gestao_ubs.Service.ExpenseReportService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,34 +34,34 @@ public class ExpenseReportServiceImpl implements ExpenseReportService {
 
         Map<Long, List<Expense>> expensesByEmployee =
                 expenses.stream().collect(Collectors.groupingBy(
-                        e -> e.getEmployee().getEmployee_id()
+                        e -> e.getEmployee().getEmployeeId()
                 ));
 
         List<EmployeeExpenseReportDto> report = new ArrayList<>();
 
         for (List<Expense> employeeExpenses : expensesByEmployee.values()) {
-            Expense first = employeeExpenses.get(0);
+            Expense first = employeeExpenses.getFirst();
 
-            Double totalAmount = employeeExpenses.stream()
+            BigDecimal totalAmount = employeeExpenses.stream()
                     .map(Expense::getAmount)
                     .filter(Objects::nonNull)
-                    .reduce(0.0, Double::sum);
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
 
             List<EmployeeExpenseDto> items =
                     employeeExpenses.stream()
                             .map(e -> new EmployeeExpenseDto(
-                                    e.getExpense_id(),
+                                    e.getExpenseId(),
                                     e.getDate(),
                                     e.getDescription(),
                                     e.getCategory() != null ? e.getCategory().getName() : null,
                                     e.getAmount(),
                                     e.getCurrency().getCode(),
-                                    e.getStatus()
+                                    e.getStatus().name()
                             ))
                             .toList();
 
             report.add(new EmployeeExpenseReportDto(
-                    first.getEmployee().getEmployee_id(),
+                    first.getEmployee().getEmployeeId(),
                     first.getEmployee().getName(),
                     totalAmount,
                     items

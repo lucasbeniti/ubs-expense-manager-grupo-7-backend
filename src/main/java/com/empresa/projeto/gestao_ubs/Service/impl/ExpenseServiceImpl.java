@@ -3,6 +3,7 @@ package com.empresa.projeto.gestao_ubs.Service.impl;
 import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseResponseDto;
+import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseUpdateStatusDto;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
 import com.empresa.projeto.gestao_ubs.Exception.ResourceNotFoundException;
 import com.empresa.projeto.gestao_ubs.Mapper.ExpenseMapper;
@@ -10,13 +11,13 @@ import com.empresa.projeto.gestao_ubs.Repository.CurrencyRepository;
 import com.empresa.projeto.gestao_ubs.Repository.EmployeeRepository;
 import com.empresa.projeto.gestao_ubs.Repository.ExpenseRepository;
 import com.empresa.projeto.gestao_ubs.Repository.CategoryRepository;
-import com.empresa.projeto.gestao_ubs.Service.ExpenseRule;
 import com.empresa.projeto.gestao_ubs.Service.AlertService;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseRulesService;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                             .orElseThrow(() -> new ResourceNotFoundException("Category not found"))
             );
         }
-        expense.setExchange_rate_snapshot(1.0);
+        expense.setExchangeRateSnapshot(BigDecimal.ONE);
         Expense saved = expensesRepository.save(expense);
 
 
@@ -69,5 +70,17 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenses.stream()
                 .map(ExpenseMapper::toResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ExpenseResponseDto updateExpenseStatus(Long id, ExpenseUpdateStatusDto dto) {
+        Expense expense = expensesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Expense not found"));
+
+        expense.setStatus(dto.getStatus());
+
+        expensesRepository.save(expense);
+
+        return ExpenseMapper.toResponseDto(expense);
     }
 }

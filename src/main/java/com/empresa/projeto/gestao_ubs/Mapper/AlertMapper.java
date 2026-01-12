@@ -4,6 +4,8 @@ import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertResponseDto;
 import com.empresa.projeto.gestao_ubs.Entity.Alert;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
+import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
+import com.empresa.projeto.gestao_ubs.Enums.AlertType;
 
 public class AlertMapper {
 
@@ -11,8 +13,8 @@ public class AlertMapper {
         Alert alert = new Alert();
         alert.setMessage(dto.getMessage());
         alert.setSeverity(dto.getSeverity());
-        alert.setStatus(dto.getStatus());
-        alert.setType(dto.getType());
+        alert.setStatus(AlertStatus.valueOf(dto.getStatus()));
+        alert.setType(AlertType.valueOf(dto.getType()));
         return alert;
     }
 
@@ -20,15 +22,16 @@ public class AlertMapper {
         Expense expense = alert.getExpense();
 
         return new AlertResponseDto(
-                alert.getAlert_id(),
+                alert.getAlertId(),
                 alert.getMessage(),
                 alert.getSeverity(),
-                alert.getStatus(),
-                alert.getType(),
+                alert.getStatus().name(),
+                alert.getType().name(),
 
-                expense != null ? expense.getExpense_id() : null,
+                expense != null ? expense.getExpenseId() : null,
+                expense != null ? expense.getDescription() : null,
 
-                alert.getCreated_at()
+                alert.getCreatedAt()
         );
     }
 }

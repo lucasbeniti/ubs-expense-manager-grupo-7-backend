@@ -1,5 +1,6 @@
 package com.empresa.projeto.gestao_ubs.Dto.Report.EmployeeExpense;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record EmployeeExpenseDto(
@@ -7,7 +8,7 @@ public record EmployeeExpenseDto(
         LocalDate date,
         String description,
         String category_name,
-        Double amount,
+        BigDecimal amount,
         String currency_code,
         String status
 ) {}

@@ -11,6 +11,6 @@ public class AlertCreateDto {
     private String message;
     private String severity;
     private String status;
-    private Long type;
+    private String type;
     private Long expense_id;
 }

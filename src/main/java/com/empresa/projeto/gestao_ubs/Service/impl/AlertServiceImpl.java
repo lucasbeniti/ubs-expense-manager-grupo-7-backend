@@ -2,20 +2,17 @@ package com.empresa.projeto.gestao_ubs.Service.impl;
 
 import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertResponseDto;
-import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertUpdateDto;
 import com.empresa.projeto.gestao_ubs.Entity.Alert;
+import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
 import com.empresa.projeto.gestao_ubs.Exception.ResourceNotFoundException;
 import com.empresa.projeto.gestao_ubs.Mapper.AlertMapper;
 import com.empresa.projeto.gestao_ubs.Repository.AlertRepository;
 import com.empresa.projeto.gestao_ubs.Repository.ExpenseRepository;
 import com.empresa.projeto.gestao_ubs.Service.AlertService;
 import lombok.AllArgsConstructor;
-import org.jspecify.annotations.NonNull;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,26 +37,6 @@ public class AlertServiceImpl implements AlertService {
     }
 
     @Override
-    public List<AlertResponseDto> findWithFilters(AlertResponseDto dto) {
-
-        List<Alert> alerts;
-
-        if (dto.getStatus() != null && dto.getSeverity() != null) {
-            alerts = alertRepository.findByStatusAndSeverity(dto.getStatus(), dto.getSeverity());
-        } else if (dto.getStatus() != null) {
-            alerts = alertRepository.findByStatus(dto.getStatus());
-        } else if (dto.getSeverity() != null) {
-            alerts = alertRepository.findBySeverity(dto.getSeverity());
-        } else {
-            alerts = alertRepository.findAll();
-        }
-
-        return alerts.stream()
-                .map(AlertMapper::toResponseDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<AlertResponseDto> getAllAlerts() {
         List<Alert> alerts = alertRepository.findAll();
         return alerts.stream()
@@ -69,13 +46,15 @@ public class AlertServiceImpl implements AlertService {
     }
 
     @Override
-    public AlertResponseDto updateAlert(@NonNull AlertUpdateDto dto) {
-        Alert alert = alertRepository.findById(dto.getAlert_id())
-                .orElseThrow(() -> new RuntimeException("Alerta não encontrado"));
+    public AlertResponseDto updateAlert(Long id) {
+        Alert alert = alertRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
 
-        alert.updateStatus(dto.getStatus());
-        Alert updatedAlert = alertRepository.save(alert);
-        return AlertMapper.toResponseDto(updatedAlert);
+        alert.setStatus(AlertStatus.valueOf(String.valueOf(AlertStatus.RESOLVED)));
+
+        Alert updated = alertRepository.save(alert);
+
+        return AlertMapper.toResponseDto(updated);
     }
 
 }

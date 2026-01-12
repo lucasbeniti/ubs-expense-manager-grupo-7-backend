@@ -14,7 +14,8 @@ public class AlertResponseDto {
     private String message;
     private String severity;
     private String status;
-    private Long type;
+    private String type;
     private Long expense_id;
+    private String expense_description;
     private LocalDateTime created_at;
 }

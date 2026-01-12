@@ -1,55 +1,61 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
+import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
+import com.empresa.projeto.gestao_ubs.Enums.AlertType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "alerts")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Alert {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long alert_id;
+    @Column(name = "alert_id")
+    private Long alertId;
+
+    @Column(name = "alert_uuid", nullable = false, unique = true, updatable = false)
+    private UUID alertUuid;
 
     @Column(name = "message", nullable = false)
     private String message;
 
-    @Column(name = "severity", nullable = false, precision = 19, scale = 6)
+    @Column(name = "severity", length = 20, nullable = false)
     private String severity;
 
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20, nullable = false)
+    private AlertStatus status;
 
-    @Column(name = "type")
-    private Long type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", length = 20)
+    private AlertType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="fk_expense_id")
+    @JoinColumn(name = "fk_expense_id")
     private Expense expense;
 
-    @Column(name = "created_at")
-    private LocalDateTime created_at;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.created_at = LocalDateTime.now();
-    }
+        this.createdAt = LocalDateTime.now();
+        this.alertUuid = UUID.randomUUID();
 
-    public enum status {
-        NEW,
-        IN_ANALYSIS,
-        SOLVED,
-        IGNORED
-    }
+        if (this.status == null) {
+            this.status = AlertStatus.NEW;
+        }
 
-    public void updateStatus(String newStatus) {
-        this.status = newStatus;
+        if (this.severity == null) {
+            this.severity = "WARNING";
+        }
     }
 }
