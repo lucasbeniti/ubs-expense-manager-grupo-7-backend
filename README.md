@@ -107,4 +107,5 @@ Antes de executar a aplicação, certifique-se de que você possui:
 
 ```bash
 # Executar a aplicação Spring Boot juntamente com o container Docker
-./gradlew bootRun
+docker compose up --build
+
