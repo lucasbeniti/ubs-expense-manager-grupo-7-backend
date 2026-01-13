@@ -27,7 +27,10 @@ public class ExpenseLogMapper {
                 expenseLog.getComments(),
 
                 expense != null ? expense.getId() : null,
+                expense != null ? expense.getDescription() : null,
+
                 employee != null ? employee.getId() : null,
+                employee != null ? employee.getName() : null,
 
                 expenseLog.getCreatedAt()
         );

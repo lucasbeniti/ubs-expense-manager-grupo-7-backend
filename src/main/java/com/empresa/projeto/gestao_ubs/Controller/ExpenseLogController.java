@@ -16,7 +16,7 @@ import java.util.List;
 @Tag(name = "Expense Logs", description = "APIs endpoints for managing expense logs")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/expenseLogs")
+@RequestMapping("/api/expense-logs")
 public class ExpenseLogController {
 
     private ExpenseLogService expenseLogService;

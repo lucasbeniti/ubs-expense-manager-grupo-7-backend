@@ -14,6 +14,8 @@ public class ExpenseLogResponseDto {
     private String action;
     private String comments;
     private Long expenseId;
+    private String expenseDescription;
     private Long employeeId;
+    private String employeeName;
     private LocalDateTime createdAt;
 }
