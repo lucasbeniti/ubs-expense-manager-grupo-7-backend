@@ -4,14 +4,16 @@ import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseResponseDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseUpdateStatusDto;
+import com.empresa.projeto.gestao_ubs.Dto.ExpenseLog.ExpenseLogCreateDto;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
+import com.empresa.projeto.gestao_ubs.Entity.ExpenseLog;
+import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
+import com.empresa.projeto.gestao_ubs.Enums.ExpenseStatus;
 import com.empresa.projeto.gestao_ubs.Exception.ResourceNotFoundException;
 import com.empresa.projeto.gestao_ubs.Mapper.ExpenseMapper;
-import com.empresa.projeto.gestao_ubs.Repository.CurrencyRepository;
-import com.empresa.projeto.gestao_ubs.Repository.EmployeeRepository;
-import com.empresa.projeto.gestao_ubs.Repository.ExpenseRepository;
-import com.empresa.projeto.gestao_ubs.Repository.CategoryRepository;
+import com.empresa.projeto.gestao_ubs.Repository.*;
 import com.empresa.projeto.gestao_ubs.Service.AlertService;
+import com.empresa.projeto.gestao_ubs.Service.ExpenseLogService;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseRulesService;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseService;
 import lombok.AllArgsConstructor;
@@ -32,6 +34,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseRulesService expenseRuleService;
 
     private final AlertService alertService;
+    private final ExpenseLogService expenseLogService;
 
     @Override
     public ExpenseResponseDto createExpenses(ExpenseCreateDto dto) {
@@ -63,6 +66,13 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         alerts.forEach(alertService::newAlert);
 
+        ExpenseLogCreateDto newLog = new ExpenseLogCreateDto();
+        newLog.setAction(ExpenseStatus.PENDING.toString());
+        newLog.setExpenseId(expense.getId());
+        newLog.setEmployeeId(2L);                 // for test, need to get the ID of the active user
+        newLog.setComments("Despesa registrada pelo funcionario");
+        expenseLogService.newExpenseLog(newLog);
+
         return ExpenseMapper.toResponseDto(saved);
     }
 
@@ -80,6 +90,22 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .orElseThrow(() -> new RuntimeException("Expense not found"));
 
         expense.setStatus(dto.getStatus());
+
+
+        ExpenseLogCreateDto newLog = new ExpenseLogCreateDto();
+        newLog.setExpenseId(expense.getId());
+        newLog.setAction(expense.getStatus().toString());
+        newLog.setEmployeeId(2L);            // for test, need to get the ID of the active user
+        if (expense.getStatus() == ExpenseStatus.MANAGER_APPROVED)
+        {
+            newLog.setComments("Aprovado pelo gestor");
+        } else if (expense.getStatus() == ExpenseStatus.FINANCE_APPROVED)
+        {
+            newLog.setComments("Aprovado pelo financeiro");
+        } else {
+            newLog.setComments("Despesa rejeitada");
+        }
+        expenseLogService.newExpenseLog(newLog);
 
         expensesRepository.save(expense);
 

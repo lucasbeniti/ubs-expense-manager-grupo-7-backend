@@ -1,8 +1,10 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
 import com.empresa.projeto.gestao_ubs.Enums.ExpenseLogAction;
+import com.empresa.projeto.gestao_ubs.Enums.ExpenseStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +24,7 @@ public class ExpenseLog {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action", length = 20)
-    private ExpenseLogAction action;
+    private ExpenseStatus action;
 
     @Column(name = "comments")
     private String comments;
