@@ -2,6 +2,8 @@ package com.empresa.projeto.gestao_ubs.Service.Rules;
 
 import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertCreateDto;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
+import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
+import com.empresa.projeto.gestao_ubs.Enums.AlertType;
 import com.empresa.projeto.gestao_ubs.Repository.ExpenseRepository;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseRule;
 import lombok.AllArgsConstructor;
@@ -39,8 +41,8 @@ public class DCategoryExpenseRule implements ExpenseRule {
             alert.setExpenseId(expense.getId());
             alert.setMessage("Despesa excedeu o limite diário da categoria");
             alert.setSeverity("HIGH");
-            alert.setStatus("NEW");
-            alert.setType(String.valueOf(1L)); // tipo = categoria
+            alert.setStatus(AlertStatus.NEW);
+            alert.setType(AlertType.CATEGORY); // tipo = categoria
             return Optional.of(alert);
         }
         return Optional.empty();

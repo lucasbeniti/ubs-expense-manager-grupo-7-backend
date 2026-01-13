@@ -38,6 +38,9 @@ public class Expense {
     @Column(nullable = false, length = 30)
     private ExpenseStatus status;
 
+    @Column(name = "need_review", nullable = false)
+    private Boolean needReview;
+
     @NotNull
     @Positive
     @Column(nullable = false, precision = 19, scale = 2)
@@ -67,6 +70,7 @@ public class Expense {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.status = ExpenseStatus.PENDING;
+        this.needReview = false;
     }
 }
 

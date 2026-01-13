@@ -32,6 +32,7 @@ public class ExpenseMapper {
                 expense.getDate(),
                 expense.getReceiptUrl(),
                 expense.getStatus().name(),
+                expense.getNeedReview(),
                 expense.getAmount(),
 
                 currency != null ? currency.getId() : null,

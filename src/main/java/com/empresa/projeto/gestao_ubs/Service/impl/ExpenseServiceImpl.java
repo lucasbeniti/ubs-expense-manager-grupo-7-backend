@@ -54,11 +54,14 @@ public class ExpenseServiceImpl implements ExpenseService {
         expense.setExchangeRateSnapshot(BigDecimal.ONE);
         Expense saved = expensesRepository.save(expense);
 
-
         List<AlertCreateDto> alerts = expenseRuleService.checkAll(saved);
+
+        if (!alerts.isEmpty()) {
+            saved.setNeedReview(true);
+            saved = expensesRepository.save(saved);
+        }
+
         alerts.forEach(alertService::newAlert);
-
-
 
         return ExpenseMapper.toResponseDto(saved);
     }

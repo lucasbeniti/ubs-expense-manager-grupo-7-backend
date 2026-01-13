@@ -2,12 +2,13 @@ package com.empresa.projeto.gestao_ubs.Service.Rules;
 
 import com.empresa.projeto.gestao_ubs.Dto.Alerts.AlertCreateDto;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
+import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
+import com.empresa.projeto.gestao_ubs.Enums.AlertType;
 import com.empresa.projeto.gestao_ubs.Repository.ExpenseRepository;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseRule;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.Optional;
@@ -46,8 +47,8 @@ public class DepartmentExpenseRule implements ExpenseRule {
             alert.setExpenseId(expense.getId());
             alert.setMessage("Despesa excedeu o limite mensal do departamento");
             alert.setSeverity("MEDIUM");
-            alert.setStatus("NEW");
-            alert.setType(String.valueOf(2L)); // tipo = departamento
+            alert.setStatus(AlertStatus.NEW);
+            alert.setType(AlertType.DEPARTMENT); // tipo = departamento
             return Optional.of(alert);
         }
 

@@ -20,6 +20,7 @@ public class ExpenseResponseDto {
     private LocalDate date;
     private String receiptUrl;
     private String status;
+    private boolean needReview;
     private BigDecimal amount;
     private Long currencyId;
     private String currencyCode;

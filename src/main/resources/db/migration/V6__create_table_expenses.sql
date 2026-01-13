@@ -5,6 +5,7 @@ CREATE TABLE expenses (
     date TIMESTAMP NOT NULL,
     receipt_url VARCHAR(500),
     status VARCHAR(30) NOT NULL, -- Pending, Manager_Approved, Finance_Approved ou Rejected
+    need_review BOOLEAN NOT NULL DEFAULT false,
     
     -- Valores Financeiros
     amount NUMERIC(19, 2) NOT NULL,
