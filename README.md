@@ -1,4 +1,4 @@
-# 💼 UBS Expense Manager — Backend
+# 💼 UBS HERMES - Expense Manager — Backend
 
 API REST corporativa para **controle de gastos de funcionários**, desenvolvida para atender às necessidades do UBS, garantindo **rastreabilidade**, **governança**, **segurança** e **controle de orçamento** sobre despesas de viagens, refeições e custos operacionais.
 
