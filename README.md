@@ -1,82 +1,165 @@
-# 💼 UBS HERMES - Expense Manager — Backend
+# 💼 UBS ExpenseManager - Backend
 
-API REST corporativa para **controle de gastos de funcionários**, desenvolvida para atender às necessidades do UBS, garantindo **rastreabilidade**, **governança**, **segurança** e **controle de orçamento** sobre despesas de viagens, refeições e custos operacionais.
+O sistema permite que funcionários registrem despesas corporativas, que passam por um **fluxo de aprovação**, com **regras de limite por categoria**, **alertas automáticos** e **controle de acesso por perfil**.
 
-Este repositório contém **exclusivamente o backend** da aplicação.
-
----
-
-## 📌 Visão Geral
-
-O sistema permite que funcionários registrem despesas corporativas, que passam por um **fluxo de aprovação**, com **regras de limite por categoria**, **alertas automáticos** e **controle de acesso por perfil**.
-
-A aplicação foi projetada seguindo **Clean Architecture**, com foco em **baixo acoplamento**, **alta testabilidade** e **clareza de responsabilidades**.
+A aplicação foi projetada seguindo **Clean Architecture**, com foco em **baixo acoplamento**, **alta testabilidade** e **clareza de responsabilidades**.
 
 ---
 
-## 🧠 Contexto de Negócio
+## 📋 Sobre o Projeto
 
-Atualmente, o UBS realiza o controle de despesas via planilhas e e-mails, o que gera:
+Backend da solução **UBS ExpenseManager**, desenvolvido para substituir o controle manual de despesas corporativas que hoje é feito via planilhas e e-mails.
 
-- Falta de rastreabilidade
-- Risco de reembolsos indevidos
-- Estouro de orçamento
-- Dificuldade em auditorias
+### Problema Resolvido
 
-Este backend resolve esses problemas através de:
+| Antes | Depois |
+| --- | --- |
+| ❌ Processos manuais sem rastreabilidade | ✅ Workflow automatizado com auditoria completa |
+| ❌ Risco de reembolsos indevidos | ✅ Validação automática contra políticas |
+| ❌ Estouro de orçamento | ✅ Alertas preventivos e bloqueios por limite |
+| ❌ Baixa eficiência operacional | ✅ Aprovação em tempo real com notificações |
 
-- Registro estruturado de despesas
-- Workflow de aprovação formal
-- Regras automatizadas de limite
-- Perfis de acesso bem definidos
-- Eventos de domínio para alertas e validações
+### Fluxo de Aprovação
+
+```jsx
+Funcionário         Gestor Direto       Financeiro
+    │                    │                   │
+    ├─── Cria ──────────>│                   │
+    │    Despesa         │                   │
+    │                    │                   │
+    │                    ├─── Aprova ──────> │
+    │                    │                   │
+    │                    │                   ├─── Valida Final
+    │ <──────────────────┴─────────────────-─┘
+         Status Atualizado
+```
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## ✨ Funcionalidades
 
-### Core
+### 🔐 Autenticação e Autorização
+
+- Autenticação segura com usuário e senha (hash BCrypt)
+- Controle de acesso baseado em roles:
+    - **Employee**: Criar despesas próprias e consultar histórico pessoal
+    - **Manager**: Aprovar/rejeitar despesas da equipe direta
+    - **Finance**: Aprovação final, gerenciar alertas e relatórios consolidados
+- Validação de permissões em cada endpoint via `@PreAuthorize`
+
+---
+
+### 🧾 Gestão de Despesas
+
+- Registro de despesas com categorização (Viagem, Refeição, Transporte, Outros)
+- Validação automática contra limites configurados
+- CRUD completo com filtros (status, categoria, período, funcionário)
+- Armazenamento de metadados de comprovantes
+- Histórico completo de alterações com timestamps e autoria
+
+---
+
+### ✅ Workflow de Aprovação
+
+- Fluxo hierárquico via State Pattern: `PENDENTE` → `APROVADA_GESTOR` → `APROVADA_FINANCEIRO`
+- Validação de transições (apenas gestor direto ou Finance podem aprovar)
+- Endpoints de aprovação/rejeição com motivo obrigatório
+- Rastreabilidade completa: quem aprovou/rejeitou e quando
+
+---
+
+### 🚨 Alertas e Validações
+
+- Geração automática de alertas via Domain Events
+- Validação de limites por categoria (diário/mensal configuráveis)
+- Controle de orçamento por departamento
+- Tipos de alertas: `VIOLACAO_CATEGORIA`, `VIOLACAO_ORCAMENTO`
+- API para listar, filtrar e marcar alertas como resolvidos
+
+---
+
+### 📊 Relatórios
+
+- Gastos por funcionário, equipe e departamento
+- Dados estruturados para gráficos (séries temporais, agregações)
+- Filtros avançados (período, categoria, status)
+- Exportação em CSV/JSON
+
+---
+
+### 🏢 Administração
+
+- CRUD de funcionários com hierarquia organizacional
+- CRUD de departamentos com configuração de orçamento mensal
+- Gestão de categorias e limites (Finance apenas)
+- Auditoria automática de ações críticas
+
+---
+
+## **🛠️ Tecnologias Utilizadas**
+
+### **Core**
+
 - **Java 21**
 - **Spring Boot 3.x**
 - **Spring Data JPA + Hibernate**
 
-### Banco de Dados
+### **Banco de Dados**
+
 - **PostgreSQL**
-- **Flyway** para versionamento de schema
+- **Flyway** para versionamento de schema
 
-### Segurança
+### **Segurança**
+
 - **Spring Security**
-- Autenticação com **usuário e senha (mock)**
-- Autorização baseada em **Roles**
+- Autenticação com **usuário e senha (mock)**
+- Autorização baseada em **Roles**
 
-### Documentação
+### **Documentação**
+
 - **Swagger / OpenAPI**
 
-### Testes
+### **Testes**
+
 - **JUnit 5**
 - **Mockito**
 - **Testcontainers**
 
----
-
-## 🧱 Arquitetura
+## 🏗️ Arquitetura e Design Patterns
 
 ### Clean Architecture
 
-O projeto segue os princípios da **Clean Architecture**, garantindo:
+```jsx
+┌─────────────────┐
+│ Controllers (API REST)         
+├─────────────────┤
+│  DTOs / Mappers         
+├─────────────────┤
+│ Services (Use Cases)          
+├─────────────────┤
+│ Domain (Entities + Rules)          
+├─────────────────┤
+│ Repositories (Interfaces)        
+└─────────────────┘
+│
+▼
+┌─────────────────┐
+│    PostgreSQL    
+└─────────────────┘
+```
 
-- Independência de frameworks
-- Domínio isolado de detalhes externos
-- Facilidade de testes
-- Evolução segura do código
+### Design Patterns Implementados
 
-### Camadas Principais
+| Pattern | Aplicação | Benefício |
+| --- | --- | --- |
+| **Strategy** | Cálculo de limites por categoria | Extensibilidade de regras sem modificar código |
+| **Observer/Events** | Geração de alertas | Desacoplamento entre despesa e validações |
+| **State** | Workflow de aprovação | Transições de status seguras e testáveis |
+| **Repository** | Acesso a dados | Abstração da persistência |
 
----
+## **🗂️ Estrutura de Pastas**
 
-## 🗂️ Estrutura de Pastas
-
-```text
+```jsx
 src/main/java/com/ubs/expensecontrol
 │
 ├── Controller
@@ -95,18 +178,57 @@ src/main/java/com/ubs/expensecontrol
 
 ```
 
-## ▶️ Execução Local
+---
+
+## 🧪 Testes
+
+## 🚀 Execução
 
 ### Pré-requisitos
 
-Antes de executar a aplicação, certifique-se de que você possui:
+- Java 21
+- Docker Desktop
 
-- **Docker Desktop instalado e em execução**
-- **Java 21**
-- Permissão para executar o Gradle Wrapper
+### Execução Rápida
 
-```bash
-# Executar a aplicação Spring Boot juntamente com o container Docker
+```jsx
+bash
+
+# 1. Build
 ./gradlew clean build -x test
+
+# 2. Subir containers (app + PostgreSQL)
 docker compose up --build
 
+# 3. Acessar
+# API: http://localhost:8080
+# Swagger: http://localhost:8080/swagger-ui.html
+# Health: http://localhost:8080/actuator/health
+```
+
+### Credenciais de Teste
+```
+Employee:  employee@ubs.com  / 123456
+Manager:   manager@ubs.com   / 123456
+Finance:   finance@ubs.com   / 123456
+```
+
+### Dados Pré-carregados (Seed)
+
+- **3 Departamentos**: Tecnologia, Financeiro, Comercial
+- **Funcionários** vinculados a gestores
+- **Categorias** com limites configurados
+- **Despesas de exemplo** em diferentes status
+
+---
+
+## 📧 Contatos e Suporte
+
+- **Documentação Frontend:** https://github.com/lucasbeniti/ubs-expense-manager-grupo-7-frontend
+- Autores do Projeto:
+| Gabriel Lemos Barbosa |
+| --- |
+| Guilherme Albuquerque de Souza |
+| Larissa Navarro Pizarro |
+| Lucas André Beniti Bernardo |
+| Oscar Thiago Nunes Gomes Ferreira |
