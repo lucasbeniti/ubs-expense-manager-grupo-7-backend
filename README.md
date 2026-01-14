@@ -148,15 +148,6 @@ Funcionário         Gestor Direto       Financeiro
 └─────────────────┘
 ```
 
-### Design Patterns Implementados
-
-| Pattern | Aplicação | Benefício |
-| --- | --- | --- |
-| **Strategy** | Cálculo de limites por categoria | Extensibilidade de regras sem modificar código |
-| **Observer/Events** | Geração de alertas | Desacoplamento entre despesa e validações |
-| **State** | Workflow de aprovação | Transições de status seguras e testáveis |
-| **Repository** | Acesso a dados | Abstração da persistência |
-
 ## **🗂️ Estrutura de Pastas**
 
 ```jsx
