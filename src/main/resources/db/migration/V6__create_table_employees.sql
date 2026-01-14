@@ -8,7 +8,8 @@ CREATE TABLE employees (
     
     department_id BIGINT REFERENCES departments(id),
     manager_id BIGINT REFERENCES employees(id),
-    
+    user_id BIGINT UNIQUE REFERENCES users(id), -- FK para User
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
 	CONSTRAINT chk_cpf_len CHECK (LENGTH(cpf) = 11)

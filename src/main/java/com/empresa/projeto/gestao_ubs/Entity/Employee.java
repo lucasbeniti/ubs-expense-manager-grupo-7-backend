@@ -1,6 +1,7 @@
 package com.empresa.projeto.gestao_ubs.Entity;
 
 import com.empresa.projeto.gestao_ubs.Enums.EmployeeRole;
+import com.empresa.projeto.gestao_ubs.Enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -56,5 +57,10 @@ public class Employee {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true) // Employee agora é dono da relação
+    @JoinColumn(name = "user_id", unique = true) // FK no Employee
+    private User user;
+
 }
 

@@ -1,5 +1,6 @@
-package com.empresa.projeto.gestao_ubs.Entity.User;
+package com.empresa.projeto.gestao_ubs.Entity;
 
+import com.empresa.projeto.gestao_ubs.Enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -18,11 +20,16 @@ import java.util.List;
 @Entity(name="users")
 public class User implements UserDetails{
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String login;
     private String password;
     private UserRole role;
+
+
+    @OneToOne(mappedBy = "user") // lado inverso
+    private Employee employee;
+
 
     public User(String login, String password, UserRole role){
         this.login = login;
@@ -34,14 +41,14 @@ public class User implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return switch (this.role) {
-            case ADMIN -> List.of(
+            case UserRole.ADMIN -> List.of(
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_EMPLOYEE"),
                     new SimpleGrantedAuthority("ROLE_MANAGER"),
                     new SimpleGrantedAuthority("ROLE_FINANCE")
             );
-            case MANAGER -> List.of(new SimpleGrantedAuthority("ROLE_MANAGER"));
-            case FINANCE -> List.of(new SimpleGrantedAuthority("ROLE_FINANCE"));
+            case UserRole.MANAGER -> List.of(new SimpleGrantedAuthority("ROLE_MANAGER"));
+            case UserRole.FINANCE -> List.of(new SimpleGrantedAuthority("ROLE_FINANCE"));
             default -> List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
         };
     }

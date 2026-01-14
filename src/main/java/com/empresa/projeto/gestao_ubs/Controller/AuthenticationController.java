@@ -3,7 +3,8 @@ package com.empresa.projeto.gestao_ubs.Controller;
 import com.empresa.projeto.gestao_ubs.Dto.User.AuthenticationDto;
 import com.empresa.projeto.gestao_ubs.Dto.User.LoginResponseDto;
 import com.empresa.projeto.gestao_ubs.Dto.User.RegisterDto;
-import com.empresa.projeto.gestao_ubs.Entity.User.User;
+import com.empresa.projeto.gestao_ubs.Entity.Employee;
+import com.empresa.projeto.gestao_ubs.Entity.User;
 import com.empresa.projeto.gestao_ubs.Infra.Security.TokenService;
 import com.empresa.projeto.gestao_ubs.Repository.UserRepository;
 import jakarta.validation.Valid;
@@ -42,6 +43,7 @@ public class AuthenticationController {
         if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
+
         User newUser = new User(data.login(), encryptedPassword, data.role());
 
         this.repository.save(newUser);

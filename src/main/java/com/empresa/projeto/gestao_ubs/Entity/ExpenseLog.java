@@ -24,7 +24,7 @@ public class ExpenseLog {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action", length = 20)
-    private ExpenseStatus action;
+    private ExpenseLogAction action;
 
     @Column(name = "comments")
     private String comments;

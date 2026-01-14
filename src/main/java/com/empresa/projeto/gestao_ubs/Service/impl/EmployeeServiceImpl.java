@@ -4,12 +4,17 @@ import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeCreateDto;
 import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeResponseDto;
 import com.empresa.projeto.gestao_ubs.Dto.Employee.EmployeeUpdateDto;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
+import com.empresa.projeto.gestao_ubs.Entity.User;
+import com.empresa.projeto.gestao_ubs.Enums.EmployeeRole;
+import com.empresa.projeto.gestao_ubs.Enums.UserRole;
 import com.empresa.projeto.gestao_ubs.Exception.ResourceNotFoundException;
 import com.empresa.projeto.gestao_ubs.Mapper.EmployeeMapper;
 import com.empresa.projeto.gestao_ubs.Repository.DepartmentRepository;
 import com.empresa.projeto.gestao_ubs.Repository.EmployeeRepository;
+import com.empresa.projeto.gestao_ubs.Repository.UserRepository;
 import com.empresa.projeto.gestao_ubs.Service.EmployeeService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +24,10 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public EmployeeResponseDto createEmployee(EmployeeCreateDto dto) {
@@ -39,8 +47,32 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setManager(manager);
         }
 
-        Employee saved = employeeRepository.save(employee);
-        return EmployeeMapper.toResponseDto(saved);
+        // 1️⃣ Salva Employee primeiro
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        // 2️⃣ Cria User e associa
+        User user = new User();
+        user.setLogin(dto.getName());
+        user.setPassword(passwordEncoder.encode("123456"));
+        user.setRole(mapEmployeeRoleToUserRole(EmployeeRole.valueOf(dto.getRole())));
+        user.setEmployee(savedEmployee);
+
+        // 3️⃣ Salva User
+        User savedUser = userRepository.save(user);
+
+        // 4️⃣ Associa User de volta ao Employee (opcional)
+        savedEmployee.setUser(savedUser);
+
+        return EmployeeMapper.toResponseDto(savedEmployee);
+    }
+
+    private UserRole mapEmployeeRoleToUserRole(EmployeeRole employeeRole) {
+        return switch (employeeRole) {
+            case ADMIN -> UserRole.ADMIN;
+            case MANAGER -> UserRole.ADMIN;
+            case FINANCE -> UserRole.FINANCE;
+            case EMPLOYEE -> UserRole.EMPLOYEE;
+        };
     }
 
     @Override
