@@ -6,16 +6,17 @@ import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseResponseDto;
 import com.empresa.projeto.gestao_ubs.Dto.Expense.ExpenseUpdateStatusDto;
 import com.empresa.projeto.gestao_ubs.Dto.ExpenseLog.ExpenseLogCreateDto;
 import com.empresa.projeto.gestao_ubs.Entity.Expense;
-import com.empresa.projeto.gestao_ubs.Entity.ExpenseLog;
-import com.empresa.projeto.gestao_ubs.Enums.AlertStatus;
+import com.empresa.projeto.gestao_ubs.Enums.ExpenseLogAction;
 import com.empresa.projeto.gestao_ubs.Enums.ExpenseStatus;
 import com.empresa.projeto.gestao_ubs.Exception.ResourceNotFoundException;
+import com.empresa.projeto.gestao_ubs.Infra.Security.AuthenticationFacade;
 import com.empresa.projeto.gestao_ubs.Mapper.ExpenseMapper;
 import com.empresa.projeto.gestao_ubs.Repository.*;
 import com.empresa.projeto.gestao_ubs.Service.AlertService;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseLogService;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseRulesService;
 import com.empresa.projeto.gestao_ubs.Service.ExpenseService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     private final AlertService alertService;
     private final ExpenseLogService expenseLogService;
+    private final AuthenticationFacade authenticationFacade;
 
+    @Transactional
     @Override
     public ExpenseResponseDto createExpenses(ExpenseCreateDto dto) {
 
@@ -66,10 +69,12 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         alerts.forEach(alertService::newAlert);
 
+        Long authenticatedEmployeeId = authenticationFacade.getAuthenticatedEmployeeId();
+
         ExpenseLogCreateDto newLog = new ExpenseLogCreateDto();
-        newLog.setAction(ExpenseStatus.PENDING.toString());
+        newLog.setAction(ExpenseLogAction.CREATED.toString());
         newLog.setExpenseId(expense.getId());
-        newLog.setEmployeeId(2L);                 // for test, need to get the ID of the active user
+        newLog.setEmployeeId(authenticatedEmployeeId);
         newLog.setComments("Despesa registrada pelo funcionario");
         expenseLogService.newExpenseLog(newLog);
 
@@ -84,6 +89,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public ExpenseResponseDto updateExpenseStatus(Long id, ExpenseUpdateStatusDto dto) {
         Expense expense = expensesRepository.findById(id)
@@ -91,18 +97,21 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         expense.setStatus(dto.getStatus());
 
+        Long authenticatedEmployeeId = authenticationFacade.getAuthenticatedEmployeeId();
 
         ExpenseLogCreateDto newLog = new ExpenseLogCreateDto();
         newLog.setExpenseId(expense.getId());
-        newLog.setAction(expense.getStatus().toString());
-        newLog.setEmployeeId(2L);            // for test, need to get the ID of the active user
+        newLog.setEmployeeId(authenticatedEmployeeId);
         if (expense.getStatus() == ExpenseStatus.MANAGER_APPROVED)
         {
+            newLog.setAction(ExpenseLogAction.APPROVED_MANAGER.toString());
             newLog.setComments("Aprovado pelo gestor");
         } else if (expense.getStatus() == ExpenseStatus.FINANCE_APPROVED)
         {
+            newLog.setAction(ExpenseLogAction.APPROVED_FINANCE.toString());
             newLog.setComments("Aprovado pelo financeiro");
         } else {
+            newLog.setAction(ExpenseLogAction.IGNORED.toString());
             newLog.setComments("Despesa rejeitada");
         }
         expenseLogService.newExpenseLog(newLog);
