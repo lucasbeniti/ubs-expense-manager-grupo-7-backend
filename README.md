@@ -173,6 +173,10 @@ src/main/java/com/ubs/expensecontrol
 
 ## 🧪 Testes
 
+1. JUnit 5
+2. Testcontainers
+3. Mockito
+   
 ## 🚀 Execução
 
 ### Pré-requisitos
