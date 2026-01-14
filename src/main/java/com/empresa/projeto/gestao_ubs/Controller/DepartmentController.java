@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(
-        origins = "http://localhost:3000",
-        allowCredentials = "true"
-
-)
 @Tag(name = "Departments", description = "APIs endpoints for managing departments")
 @RestController
 @RequestMapping("/api/departments")

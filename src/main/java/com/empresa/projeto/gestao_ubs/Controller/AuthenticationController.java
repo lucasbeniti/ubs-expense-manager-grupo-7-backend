@@ -6,7 +6,9 @@ import com.empresa.projeto.gestao_ubs.Dto.User.RegisterDto;
 import com.empresa.projeto.gestao_ubs.Entity.Employee;
 import com.empresa.projeto.gestao_ubs.Entity.User;
 import com.empresa.projeto.gestao_ubs.Infra.Security.TokenService;
+import com.empresa.projeto.gestao_ubs.Repository.EmployeeRepository;
 import com.empresa.projeto.gestao_ubs.Repository.UserRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Authentication", description = "APIs endpoints for managing authorization")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthenticationController {
 
     @Autowired
@@ -28,14 +31,21 @@ public class AuthenticationController {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDto data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((User) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDto(token));
+        User user = (User) auth.getPrincipal();
+        var token = tokenService.generateToken(user);
+
+        var employee = employeeRepository.findByUser(user)
+                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado para este usuário"));
+
+        return ResponseEntity.ok(new LoginResponseDto(token, employee.getName(), user.getLogin(), employee.getRole().toString(), employee.getId()));
     }
 
     @PostMapping("/register")

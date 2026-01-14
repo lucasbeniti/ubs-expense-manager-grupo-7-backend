@@ -47,20 +47,16 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setManager(manager);
         }
 
-        // 1️⃣ Salva Employee primeiro
         Employee savedEmployee = employeeRepository.save(employee);
 
-        // 2️⃣ Cria User e associa
         User user = new User();
         user.setLogin(dto.getName());
         user.setPassword(passwordEncoder.encode("123456"));
         user.setRole(mapEmployeeRoleToUserRole(EmployeeRole.valueOf(dto.getRole())));
         user.setEmployee(savedEmployee);
 
-        // 3️⃣ Salva User
         User savedUser = userRepository.save(user);
 
-        // 4️⃣ Associa User de volta ao Employee (opcional)
         savedEmployee.setUser(savedUser);
 
         return EmployeeMapper.toResponseDto(savedEmployee);

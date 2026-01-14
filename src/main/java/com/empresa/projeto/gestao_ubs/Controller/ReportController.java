@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@CrossOrigin(
-        origins = "http://localhost:3000",
-        allowCredentials = "true"
-
-)
 @Tag(name = "Reports", description = "APIs endpoints for managing reports")
 @RestController
 @RequestMapping("/api/reports") 
