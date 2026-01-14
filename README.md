@@ -220,6 +220,7 @@ Finance:   finance@ubs.com   / 123456
 ## 📧 Contatos e Suporte
 
 - **Documentação Frontend:** https://github.com/lucasbeniti/ubs-expense-manager-grupo-7-frontend
+- **Notion:** https://www.notion.so/Acesso-r-pido-2d245a6ea3f980e8a1d1ce460c5c8129?source=copy_link
 - Autores do Projeto:
 | Gabriel Lemos Barbosa |
 | --- |
