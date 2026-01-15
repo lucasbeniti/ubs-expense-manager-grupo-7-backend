@@ -50,7 +50,8 @@ public class ExpenseMapper {
                 category != null ? category.getDailyLimit() : null,
                 category != null ? category.getMonthlyLimit() : null,
 
-                expense.getCreatedAt()
+                expense.getCreatedAt(),
+                employee != null && employee.getManager() != null ? employee.getManager().getId() : null
         );
     }
 }

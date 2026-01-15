@@ -36,29 +36,10 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/employees").hasRole("ADMIN")
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll() // swagger routes
-
-                        .requestMatchers( "/api/reports/**").hasAnyRole("ADMIN","FINANCE")
-
-                        //ADMIN
-                        .requestMatchers("/api/employees").hasRole("ADMIN")
-                        .requestMatchers("/api/employees/**").hasRole("ADMIN")
-                        .requestMatchers( "/api/categories").hasRole("ADMIN")
-                        .requestMatchers( "/api/categories/**").hasRole("ADMIN")
-                        .requestMatchers( "/api/departments").hasRole("ADMIN")
-                        .requestMatchers( "/api/departments/**").hasRole("ADMIN")
-
-
-
-                        // FINANCE (all other expenses routes except /me)
-                        .requestMatchers("/api/expenses/**").hasAnyRole("FINANCE","EMPLOYEE")
-                        .requestMatchers("/api/alerts/**").hasRole("FINANCE")
-                        .requestMatchers("/api/expense-logs/**").hasRole("FINANCE")
-
-
-
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

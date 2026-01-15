@@ -34,4 +34,5 @@ public class ExpenseResponseDto {
     private BigDecimal dailyLimit;
     private BigDecimal monthlyLimit;
     private LocalDateTime createdAt;
+    private Long managerId;
 }
