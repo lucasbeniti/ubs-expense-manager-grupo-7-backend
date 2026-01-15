@@ -20,6 +20,12 @@ public class AuthenticationFacade {
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new RuntimeException("Usuario nao autenticado");
         }
+
+        String username = authentication.getName();
+        if (username == null || username.isEmpty()) {
+            throw new RuntimeException("Usuário autenticado sem login válido");
+        }
+
         return (User) authentication.getPrincipal();
     }
 

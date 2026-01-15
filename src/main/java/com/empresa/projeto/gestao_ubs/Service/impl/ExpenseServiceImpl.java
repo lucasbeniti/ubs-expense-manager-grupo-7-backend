@@ -120,4 +120,5 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         return ExpenseMapper.toResponseDto(expense);
     }
+
 }

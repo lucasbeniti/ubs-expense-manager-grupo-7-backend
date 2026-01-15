@@ -42,4 +42,5 @@ public class ExpenseController {
         ExpenseResponseDto updatedExpense = expensesService.updateExpenseStatus(id, dto);
         return ResponseEntity.ok(updatedExpense);
     }
+
 }

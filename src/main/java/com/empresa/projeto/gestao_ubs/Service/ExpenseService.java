@@ -12,4 +12,5 @@ public interface ExpenseService {
     List<ExpenseResponseDto> getAllExpenses();
 
     ExpenseResponseDto updateExpenseStatus(Long id, ExpenseUpdateStatusDto dto);
+
 }
